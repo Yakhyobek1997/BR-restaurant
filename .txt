@@ -1,0 +1,4 @@
+Compiled language : Java, Golang, C, C++, C#, Rust => Compiling(Machine langa o'girladi) & Running bo'ladi
+
+Interpreted Language: NodeJs, Python, PHP, Ruby => Running
+
