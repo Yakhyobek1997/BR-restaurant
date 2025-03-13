@@ -2,3 +2,15 @@ Compiled language : Java, Golang, C, C++, C#, Rust => Compiling(Machine langa o'
 
 Interpreted Language: NodeJs, Python, PHP, Ruby => Running
 
+TypeScript - JavaScript tilining kuchaytirilgan versiyasidir (statik tiplash va obyektga yo‘naltirilgan dasturlash )
+
+
+
+_________Dynamic and Interface________
+
+Ikki xil type bor 
+
+1) Primitive - referencega ega bo'lmagan variables (str,number,boolean,null,undefined)
+2) Object type - object,array,map
+
+//___
