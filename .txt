@@ -13,4 +13,23 @@ Ikki xil type bor
 1) Primitive - referencega ega bo'lmagan variables (str,number,boolean,null,undefined)
 2) Object type - object,array,map
 
-//___
+
+1) .env  package json Dependencga (npm i dotenv@16.0.0)
+2) src da env ni import qilamiz
+3) Portgaham dotenv ni yozib olamiz (PORT-3003)
+
+server.ts
+
+import dotenv from 'dotenv'
+dotenv.config()
+
+console.log("PORT:",process.env.PORT)
+
+(test)
+npm start run:dev
+
+
+4) DataBase ni o'rnatamiz
+
+.env ga yrl ulab , serverJs da test qilib koramiz
+
