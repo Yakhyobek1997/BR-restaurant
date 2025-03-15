@@ -2,7 +2,8 @@
 // MVC = MODEL View Controller
 // Design pattern: Middleware,Decorate
 
-import dotenv from "dotenv"
+import dotenv from "dotenv" // (env variable)
+// externel package (node package manager orqali install qildik)
 dotenv.config() // dot envdan cofnvig methodni execution qilamiz
 
 import mongoose from "mongoose"
@@ -10,8 +11,9 @@ import app from "./app"
 
 
 
-mongoose
+mongoose //databselar uchun qonunyat yaratib beradi
 .connect(process.env.MONGO_URL as string, {})
+// assynch methodni chaqirib
 .then((data) => {
     console.log('MongoDb connection succeed')
     const PORT = process.env.PORT ?? 3003
