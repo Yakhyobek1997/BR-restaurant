@@ -1,6 +1,7 @@
 import express from "express" // making database server
 import path from "path"
 import router from "./router"
+import routerAdmin from "../src/routerAdmin"
 
 // 1-ENTRANCE
 
@@ -20,7 +21,10 @@ app.set('views', path.join(__dirname, "views")); // `path.join(__dirname, "views
 app.set('view engine', "ejs"); // `EJS` (Embedded JavaScript) ni ko'rinishlar (view) shablon dvigati sifatida belgilaydi.
 
 // 4-Routers
-app.use('/',router)// (Middleware design pattern)
+//BSSR: EJS 
+app.use('/admin',routerAdmin) // EJS
+app.use('/',router) // REACT: SPA: React rest.api server sifatida ishlatamiz
+// (Middleware design pattern)
 // kelyotgan zapros router ga yubor
 
 export default app
