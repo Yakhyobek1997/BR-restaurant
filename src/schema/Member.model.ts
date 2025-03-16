@@ -1,4 +1,4 @@
-// Member schema modeli
+// Member schema modelid
 
 import {MemberStatus, MemberType } from './../libs/enums/member.enum';
 import mongoose, { Schema } from 'mongoose'

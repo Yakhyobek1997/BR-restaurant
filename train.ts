@@ -1,9 +1,40 @@
-function getPositive(arr: number[]): string {
-    return arr.filter((num: number) => num > 0).join('');
+// Qaysi qiymat eng ko'p qatnashganini topib beradi
+
+function majorityElement(arr: number[]): number {
+  const countMap: Record<number, number> = {};
+
+  // calculate the element
+  arr.forEach((num) => {
+      countMap[num] = (countMap[num] || 0) + 1;
+  });
+
+  // We have to find the most repeated element
+  let majority: number | null = null;
+  let maxCount = 0;
+
+  for (const num in countMap) {
+      if (countMap[num] > maxCount) {
+          maxCount = countMap[num];
+          majority = parseInt(num);
+      }
   }
+
+  return majority!;
+}
+
+// masalan
+console.log(majorityElement([1,2,5,5,3,4,5,6,6,5,5,4,3,4])); // 5 eng kop qatnasgan
+
+
+
+
+
+// function getPositive(arr: number[]): string {
+//     return arr.filter((num: number) => num > 0).join('');
+//   }
   
-  // test
-  console.log(getPositive([1, -4, 2])); // "12"
+//   // test
+//   console.log(getPositive([1, -4, 2])); // "12"
 
 
 
