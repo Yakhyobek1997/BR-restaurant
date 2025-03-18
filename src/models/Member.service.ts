@@ -1,3 +1,5 @@
+// MEMBER SCHEMA MODULE
+
 class MemberService {
     constructor() {
 

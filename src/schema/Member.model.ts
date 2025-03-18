@@ -3,6 +3,8 @@
 import {MemberStatus, MemberType } from './../libs/enums/member.enum';
 import mongoose, { Schema } from 'mongoose'
 
+
+
 const memberSchema = new Schema({
     memberType: {
         type:String,

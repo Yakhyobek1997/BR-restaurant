@@ -1,30 +1,39 @@
+// Backend server qurvommiz (Express orqali)
+
 import express from "express" // making database server
 import path from "path"
 import router from "./router"
 import routerAdmin from "../src/routerAdmin"
+import morgan from "morgan"
+import { MORGAN_FORMAT } from "./libs/config"
 
 // 1-ENTRANCE
 
 // 1-ENTRANCE
-const app = express(); // `express` funksiyasini chaqirish orqali yangi ilova yaratiladi va `app` o'zgaruvchisiga saqlanadi.
-console.log("__dirname:", __dirname, "public"); 
+const app = express(); 
+console.log("__dirname:", __dirname, "public");
 
-app.use(express.static(path.join(__dirname, "public"))); // `path.join(__dirname, "public")` orqali to'liq yo'l hosil qilinadi va `express.static` yordamida "public" katalogidagi statik fayllar ishlatilvotti.
-app.use(express.urlencoded({ extended: true })); // `express.urlencoded` bodi-parser middleware yordamida URL kodlangan ma'lumotlarni olishga imkon beradi.
-app.use(express.json()); // `express.json` bodi-parser middleware yordamida JSON formatdagi ma'lumotlarni olishga imkon beradi.
-// Body-parser orqali HTTP so'rovlaridagi bodi (request body) ma'lumotlarini
+app.use(express.static(path.join(__dirname, "public"))); 
+app.use(express.urlencoded({ extended: true })); 
+app.use(express.json());
+app.use(morgan(MORGAN_FORMAT))
+
 // 2-SESSIONS
 // 3-VIEWS
 
 // 3-VIEWS
-app.set('views', path.join(__dirname, "views")); // `path.join(__dirname, "views")` orqali "views" to'liq yo'lini hosil qiladi va bu yo'lni ko'rinishlar katalogi sifatida belgilaydi.
-app.set('view engine', "ejs"); // `EJS` (Embedded JavaScript) ni ko'rinishlar (view) shablon dvigati sifatida belgilaydi.
+app.set('views', path.join(__dirname, "views")); 
+app.set('view engine', "ejs"); 
 
 // 4-Routers
-//BSSR: EJS 
-app.use('/admin',routerAdmin) // EJS
+//BSSR: EJS backenda front end qurish
+app.use('/admin',routerAdmin) // EJS admin uchun
 app.use('/',router) // REACT: SPA: React rest.api server sifatida ishlatamiz
 // (Middleware design pattern)
 // kelyotgan zapros router ga yubor
 
 export default app
+
+//SPA (Single-Page Application) — bu 
+// dasturlashda ishlatiladigan 
+// veb-application arxitekturasi.

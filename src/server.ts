@@ -6,11 +6,11 @@ import dotenv from "dotenv" // (env variable)
 // externel package (node package manager orqali install qildik)
 dotenv.config() // dot envdan cofnvig methodni execution qilamiz
 
-import mongoose from "mongoose"
+import mongoose from "mongoose" // external package
 import app from "./app"
 
 
-
+// TCP ni xosil qilish.
 mongoose //databselar uchun qonunyat yaratib beradi
 .connect(process.env.MONGO_URL as string, {})
 // assynch methodni chaqirib

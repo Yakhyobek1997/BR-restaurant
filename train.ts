@@ -1,29 +1,47 @@
+/* Project Standarts:
+  - Logging standarts
+  - Naming standarts
+     function, method, variable => Camel case, gohome
+     class => PASCAL     MemberService
+     folder => KEBAB     
+     css => SNAKE
+
+ - Error handling
+
+
+*/
+
+
+
+
+
+
 // Qaysi qiymat eng ko'p qatnashganini topib beradi
 
-function majorityElement(arr: number[]): number {
-  const countMap: Record<number, number> = {};
+// function majorityElement(arr: number[]): number {
+//   const countMap: Record<number, number> = {};
 
-  // calculate the element
-  arr.forEach((num) => {
-      countMap[num] = (countMap[num] || 0) + 1;
-  });
+//   // calculate the element
+//   arr.forEach((num) => {
+//       countMap[num] = (countMap[num] || 0) + 1;
+//   });
 
-  // We have to find the most repeated element
-  let majority: number | null = null;
-  let maxCount = 0;
+//   // We have to find the most repeated element
+//   let majority: number | null = null;
+//   let maxCount = 0;
 
-  for (const num in countMap) {
-      if (countMap[num] > maxCount) {
-          maxCount = countMap[num];
-          majority = parseInt(num);
-      }
-  }
+//   for (const num in countMap) {
+//       if (countMap[num] > maxCount) {
+//           maxCount = countMap[num];
+//           majority = parseInt(num);
+//       }
+//   }
 
-  return majority!;
-}
+//   return majority!;
+// }
 
-// masalan
-console.log(majorityElement([1,2,5,5,3,4,5,6,6,5,5,4,3,4])); // 5 eng kop qatnasgan
+// // masalan
+// console.log(majorityElement([1,2,5,5,3,4,5,6,6,5,5,4,3,4])); // 5 eng kop qatnasgan
 
 
 
