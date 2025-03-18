@@ -7,6 +7,7 @@ import routerAdmin from "../src/routerAdmin"
 import morgan from "morgan"
 import { MORGAN_FORMAT } from "./libs/config"
 
+
 // 1-ENTRANCE
 
 // 1-ENTRANCE
@@ -16,6 +17,7 @@ console.log("__dirname:", __dirname, "public");
 app.use(express.static(path.join(__dirname, "public"))); 
 app.use(express.urlencoded({ extended: true })); 
 app.use(express.json());
+
 app.use(morgan(MORGAN_FORMAT))
 
 // 2-SESSIONS
@@ -27,7 +29,7 @@ app.set('view engine', "ejs");
 
 // 4-Routers
 //BSSR: EJS backenda front end qurish
-app.use('/admin',routerAdmin) // EJS admin uchun
+app.use('/admin', routerAdmin); // EJS admin uchun
 app.use('/',router) // REACT: SPA: React rest.api server sifatida ishlatamiz
 // (Middleware design pattern)
 // kelyotgan zapros router ga yubor

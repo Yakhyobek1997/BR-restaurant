@@ -21,10 +21,10 @@ class Errors extends Error {
   public code: HttpCode
   public message: Message
 
-  constructor(statusCode:HttpCode,StatusMessage: Message) {
+  constructor(statusCode:HttpCode,statusMessage: Message) {
     super()
     this.code = statusCode
-    this.message = StatusMessage
+    this.message = statusMessage
   }
 };
 
