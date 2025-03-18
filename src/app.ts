@@ -3,7 +3,7 @@
 import express from "express" // making database server
 import path from "path"
 import router from "./router"
-import routerAdmin from "../src/routerAdmin"
+import routerAdmin from "./router-admin"
 import morgan from "morgan"
 import { MORGAN_FORMAT } from "./libs/config"
 
