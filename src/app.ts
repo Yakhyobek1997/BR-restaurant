@@ -17,7 +17,6 @@ console.log("__dirname:", __dirname, "public");
 app.use(express.static(path.join(__dirname, "public"))); 
 app.use(express.urlencoded({ extended: true })); 
 app.use(express.json());
-
 app.use(morgan(MORGAN_FORMAT))
 
 // 2-SESSIONS
