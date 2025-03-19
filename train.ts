@@ -1,3 +1,16 @@
+// J task
+
+const findLongestWord = (sentence: string): string => 
+  sentence.split(" ").reduce((a, b) => (b.length > a.length ? b : a), "");
+
+console.log(findLongestWord("I come from Uzbekistan")); // "Uzbekistan"
+
+
+
+
+
+
+
 /* Project Standarts:
   - Logging standarts
   - Naming standarts
