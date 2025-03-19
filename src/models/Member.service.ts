@@ -14,7 +14,7 @@ class MemberService {
 
         const result = await this.memberModel.create(input);
         result.memberPassword = "";
-        return result;
+        return result as Member;
     }
 }
 
