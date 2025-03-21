@@ -39,7 +39,7 @@ class MemberService {
         }
     }
 
-    // 🔹 Tizimga kirish (Login)
+    // Tizimga kirish (Login)
     public async processLogin(input: LoginInput): Promise<Member> {
         try {
        
