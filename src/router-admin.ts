@@ -7,7 +7,7 @@ routerAdmin.get('/',restaurantController.goHome)
 
 routerAdmin.get('/login',restaurantController.getLogin)
 
-routerAdmin.post('/login/process', restaurantController.processLogin);
+routerAdmin.post('/login', restaurantController.processLogin);
 
 routerAdmin.get('/signup',restaurantController.getSignup)
 .post("/signup", restaurantController.processSignup)
