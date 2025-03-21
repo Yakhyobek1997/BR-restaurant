@@ -32,22 +32,18 @@ class MemberService {
     }
 
     public async processLogin(input: LoginInput): Promise<Member> {
-        const member = await this.memberModel
-            .findOne({ memberNick: input.memberNick })
-            .select("memberPassword") 
-            .exec();
-    
-        if (!member) throw new Errors(HttpCode.NOT_FOUND, Message.NOT_MEMBER_NICK);
-    
-        const isMatch = await bcrypt.compare(input.memberPassword,member.memberPassword)
-        if (!isMatch) {
-            throw new Errors(HttpCode.UNAUTHORIZED, Message.WRONG_PASSWORD);
+
+        const member = await this.memberModel.findOne({memberNick: input.memberNick}, {memberNick: 1, memberPassword: 1}).exec();
+        if(!member) throw new Errors(HttpCode.NOT_FOUND, Message.NOT_MEMBER_NICK)
+        console.log("member:", member)
+
+        const isMatch = await bcrypt.compare(input.memberPassword, member.memberPassword)
+        if(!isMatch) {
+            throw new Errors(HttpCode.UNAUTHORIZED, Message.WRONG_PASSWORD)
         }
-    
-     
-        member.memberPassword = "";
-    
-        return member.toObject() as Member;
+        const result = await this.memberModel.findById(member._id).exec();
+        //return qilishni bo'qa yolini topolmadim!!!
+        return result?.toObject() as Member;
     }
     
 }
