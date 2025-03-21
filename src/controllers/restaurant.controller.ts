@@ -1,74 +1,66 @@
-import { Member } from './../libs/types/member';
-// build controllers by objects
-import { Request, Response } from "express"
-import { T } from "../libs/types/common"
-import MemberService from "../models/Member.service"
-import { LoginInput, MemberInput } from "../../src/libs/types/member"
-import { MemberType } from "../../src/libs/enums/member.enum"
+import { Request, Response } from "express";
+import { MemberInput, LoginInput } from "../libs/types/member";
+import { MemberType } from "../libs/enums/member.enum";
+import MemberService from "../models/Member.service";
 
+// Controller obyekti
+const restaurantController: { [key: string]: any } = {};
 
-// import MemberService from "../models/member.service" 
+// Bosh sahifa
+restaurantController.goHome = (req: Request, res: Response) => {
+    res.send("Home Page");
+};
 
-const restaurantController: T = {}
-restaurantController.goHome = (req: Request, res: Response ) =>{
+// Login sahifasi (GET)
+restaurantController.getLogin = (req: Request, res: Response) => {
+    res.send("Login Page");
+};
+
+// Signup sahifasi (GET)
+restaurantController.getSignup = (req: Request, res: Response) => {
+    res.send("Signup Page");
+};
+
+// Login (POST)
+restaurantController.processLogin = async (req: Request, res: Response) => {
     try {
-        res.send("Home Page")
-    } catch (err) {
-        console.log("Error, goHome:",err)
+        console.log("processLogin - request body:", req.body);
+
+        const input: LoginInput = req.body;
+        const memberService = new MemberService();
+        const result = await memberService.processLogin(input);
+
+        res.status(200).json(result);
+    } catch (err: any) {
+        console.error("Error in processLogin:", err);
+
+        res.status(err.code || 500).json({
+            code: err.code || 500,
+            message: err.message || "An unexpected error occurred"
+        });
     }
-}
+};
 
-
-restaurantController.getLogin = (req: Request, res: Response ) =>{
-    try {
-        res.send('Login Page')
-    } catch (err) {
-        console.log("Error, getLogin:",err)
-    }
-}
-
-restaurantController.getSignup = (req: Request, res: Response ) => {
-    try {
-        res.send('Signup Page')
-    } catch (err) {
-        console.log("Error, Signup:",err)
-    }
-}
-
-
-restaurantController.processLogin = async (req: Request, res: Response ) =>{
-    try {
-        console.log("processLogin")
-        console.log("body:",req.body)
-        const input: LoginInput = req.body
-
-        const memberService = new MemberService()
-        const result = await memberService.processLogin(input)
-        res.send(result)
-    } catch (err) {
-        console.log("Error, Login:",err)
-        res.send(err)
-    }
-}
-
-
+// Signup (POST)
 restaurantController.processSignup = async (req: Request, res: Response) => {
     try {
-        console.log("processSignup");
+        console.log("processSignup - request body:", req.body);
 
         const newMember: MemberInput = req.body;
         newMember.memberType = MemberType.RESTAURANT;
 
         const memberService = new MemberService();
-        const result = await memberService.processSignup(newMember);
+        const result = await memberService.processSignup(newMember); 
 
-        res.send(result);
-    } catch (err) {
-        console.log("Error, processSignup:", err);
-        res.send(err);
+        res.status(201).json(result);
+    } catch (err: any) {
+        console.error("Error in processSignup:", err);
+
+        res.status(err.code || 500).json({
+            code: err.code || 500,
+            message: err.message || "An unexpected error occurred"
+        });
     }
-}
+};
 
-
-// routerda call qilamiz
-export default restaurantController
+export default restaurantController;

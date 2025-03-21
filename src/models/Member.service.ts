@@ -11,41 +11,61 @@ class MemberService {
         this.memberModel = MemberModel;
     }
 
+
     public async processSignup(input: MemberInput): Promise<Member> {
+
         const exist = await this.memberModel
             .findOne({ memberType: MemberType.RESTAURANT })
             .exec();
         
-        if (exist) throw new Errors(HttpCode.BAD_REQUEST, Message.CREATE_FAILED);
+        if (exist) {
+            throw new Errors(HttpCode.BAD_REQUEST, Message.CREATE_FAILED);
+        }
 
-        const salt = await bcrypt.genSalt()
-        input.memberPassword = await bcrypt.hash(input.memberPassword,salt)
-
+        const salt = await bcrypt.genSalt(10);
+        input.memberPassword = await bcrypt.hash(input.memberPassword, salt);
 
         try {
+         
             const result = await this.memberModel.create(input);
+
+           
             result.memberPassword = "";
+
             return result.toObject() as Member;
         } catch (err) {
+            console.error("Signup Error:", err);
             throw new Errors(HttpCode.BAD_REQUEST, Message.CREATE_FAILED);
         }
     }
 
+    // 🔹 Tizimga kirish (Login)
     public async processLogin(input: LoginInput): Promise<Member> {
+        try {
+       
+            const member = await this.memberModel
+                .findOne({ memberNick: input.memberNick })
+                .select("+memberPassword") 
+                .exec();
 
-        const member = await this.memberModel.findOne({memberNick: input.memberNick}, {memberNick: 1, memberPassword: 1}).exec();
-        if(!member) throw new Errors(HttpCode.NOT_FOUND, Message.NOT_MEMBER_NICK)
-        console.log("member:", member)
+            if (!member) {
+                throw new Errors(HttpCode.NOT_FOUND, Message.NOT_MEMBER_NICK);
+            }
 
-        const isMatch = await bcrypt.compare(input.memberPassword, member.memberPassword)
-        if(!isMatch) {
-            throw new Errors(HttpCode.UNAUTHORIZED, Message.WRONG_PASSWORD)
+            const isMatch = await bcrypt.compare(input.memberPassword, member.memberPassword);
+            if (!isMatch) {
+                throw new Errors(HttpCode.UNAUTHORIZED, Message.WRONG_PASSWORD);
+            }
+
+         
+            member.memberPassword = "";
+
+            return member.toObject() as Member;
+        } catch (err) {
+            console.error("Login Error:", err);
+            throw err;
         }
-        const result = await this.memberModel.findById(member._id).exec();
-        //return qilishni bo'qa yolini topolmadim!!!
-        return result?.toObject() as Member;
     }
-    
 }
 
 export default MemberService;
