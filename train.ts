@@ -1,8 +1,9 @@
+// Task H2
+
 function getDigits(input: string): string {
   return input.replace(/\D/g, "");
 }
 
-// 🔹 Test qilish
 console.log(getDigits("m14i1t")); // 141
 
 
