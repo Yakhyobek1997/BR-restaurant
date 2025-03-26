@@ -4,23 +4,21 @@
 
 
 // 1)________Mongoose connection
+import dotenv from "dotenv";
+dotenv.config();
 
-import dotenv from "dotenv" // (env variable)
-// externel package (node package manager orqali install qildik)
-dotenv.config() // dot envdan cofnvig methodni execution qilamiz
+import mongoose from "mongoose";
+import app from "./app";
 
-import mongoose from "mongoose" // external package
-import app from "./app"
+mongoose
+  .connect(process.env.MONGO_URL as string, {})
+  .then(() => {
+    console.log("MongoDB connection succeed");
 
-
-mongoose //
-.connect(process.env.MONGO_URL as string, {})
-// assynch methodni chaqirib
-.then((data) => {
-    console.log('MongoDb connection succeed')
-    const PORT = process.env.PORT ?? 3003  
-    app.listen(PORT,function () { 
-        console.log(`the server is running succesfully on port ${PORT}`)
-    })
-})
-.catch(err => console.log("ERROR on connection MongoDB",err))
+    const PORT = process.env.PORT ?? 3003;
+    app.listen(PORT, function () {
+      console.info(`The server is running successfully on port: ${PORT}`);
+      console.info(`Admin project on http://localhost:${PORT}/admin \n`);
+    });
+  })
+  .catch((err) => console.log("ERROR on connection MongoDB", err));
