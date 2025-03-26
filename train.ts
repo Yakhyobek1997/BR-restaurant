@@ -1,10 +1,10 @@
 // Task H2
 
-function getDigits(input: string): string {
-  return input.replace(/\D/g, "");
-}
+// function getDigits(input: string): string {
+//   return input.replace(/\D/g, "");
+// }
 
-console.log(getDigits("m14i1t")); // 141
+// console.log(getDigits("m14i1t")); // 141
 
 
 
@@ -34,6 +34,9 @@ console.log(getDigits("m14i1t")); // 141
 
 
 */
+
+
+
 
 
 

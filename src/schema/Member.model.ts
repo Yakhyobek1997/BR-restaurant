@@ -17,7 +17,7 @@ const memberSchema = new Schema({
         default: MemberStatus.ACTIVE,
         required: false
     },
-
+// Endi bu yerga keladi yani Schema orqali user ma’lumotlarini aniqlaydi.
     memberNick: {
         type: String,
         index: {unique: true, sparse:true },

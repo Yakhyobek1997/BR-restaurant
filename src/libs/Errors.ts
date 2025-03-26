@@ -13,14 +13,22 @@ export enum Message {
   CREATE_FAILED = "Failed to create record!",
   LOGIN_FAILED = "Login failed!",
   NOT_MEMBER_NICK = "User not found!",
-  WRONG_PASSWORD = "Incorrect password!"
+  WRONG_PASSWORD = "Incorrect password!",
+  USED_NICK_PHONE = "You are inserting already used nick or phone",
+  MEMBER_NOT_FOUND = " Error memebr not found"
 }
 
 class Errors extends Error {
-  public code: number;
+  public code: HttpCode;
+  public message: Message;
 
-  constructor(statusCode: HttpCode, statusMessage: string) {
-    super(statusMessage);
+  static standard = {
+    code: HttpCode.INTERNAL_SERVER_ERROR,
+    message: Message.SOMETHING_WENT_WRONG,
+  };
+
+  constructor(statusCode: HttpCode, statusMessage: Message) {
+    super();
     this.code = statusCode;
     this.message = statusMessage;
   }
