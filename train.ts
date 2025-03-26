@@ -1,3 +1,22 @@
+function countVowels(str: string): number {
+  const vowels = ['a', 'e', 'i', 'o', 'u'];
+  let count = 0;
+
+  for (const char of str.toLowerCase()) {
+    if (vowels.includes(char)) {
+      count++;
+    }
+  }
+
+  return count;
+}
+
+// Test
+console.log(countVowels("string")); 
+console.log(countVowels("education")); 
+
+
+
 // Task H2
 
 // function getDigits(input: string): string {
