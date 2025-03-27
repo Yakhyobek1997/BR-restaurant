@@ -79,31 +79,28 @@ class MemberService {
   
   public async processLogin(input: LoginInput): Promise<Member> {
     const member = await this.memberModel
-      .findOne({ memberNick: input.memberNick }) // faqat filter
-      .select("+memberPassword") // password maydonini qo‘shib chaqiryapmiz
+      .findOne({ memberNick: new RegExp(`^${input.memberNick}$`, "i") }) // <- case-insensitive
+      .select("+memberPassword")
       .exec();
   
     if (!member) {
       throw new Errors(HttpCode.NOT_FOUND, Message.NOT_MEMBER_NICK);
     }
   
-    const isMatch = await bcrypt.compare(
-      input.memberPassword,
-      member.memberPassword
-    );
+    const isMatch = await bcrypt.compare(input.memberPassword, member.memberPassword);
   
     if (!isMatch) {
       throw new Errors(HttpCode.UNAUTHORIZED, Message.WRONG_PASSWORD);
     }
   
     const fullMember = await this.memberModel.findById(member._id).exec();
-  
     if (!fullMember) {
       throw new Errors(HttpCode.NOT_FOUND, Message.MEMBER_NOT_FOUND);
     }
   
     return fullMember.toObject() as Member;
   }
+  
   
   
 }

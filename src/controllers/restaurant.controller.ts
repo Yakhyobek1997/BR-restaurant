@@ -86,6 +86,7 @@ restaurantController.processLogin = async (
 
     const input: LoginInput = req.body; // Foydalanuvchidan kelgan login ma’lumotlari
     const result = await memberService.processLogin(input); // Service orqali login tekshiruvi
+    console.log("Login input:", req.body);
 
     req.session.member = result; // Session'ga foydalanuvchini saqlaymiz
     req.session.save(function () {
