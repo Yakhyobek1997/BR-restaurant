@@ -4,6 +4,7 @@ import MemberService from "../models/Member.service";
 import { AdminRequest, LoginInput, MemberInput } from "../libs/types/member";
 import { MemberType } from "../libs/enums/member.enum";
 import session from "express-session";
+import { Message } from "../libs/Errors"
 
 
 // MemberService instansiyasi
@@ -66,7 +67,7 @@ restaurantController.processSignup = async (req: AdminRequest, res: Response) =>
 restaurantController.processLogin = async (req: AdminRequest, res: Response) => {
   try {
     console.log("Process login");
-    console.log("body", req.body);
+    console.log("Login input: ", req.body);
 
     const input: LoginInput = req.body; // Login ma’lumotlarini olamiz
     const result = await memberService.processLogin(input); // Login tekshiriladi
@@ -82,4 +83,20 @@ restaurantController.processLogin = async (req: AdminRequest, res: Response) => 
   }
 };
 
-export default restaurantController; // Controller eksport qilinadi (router.ts uchun)
+restaurantController.checkAuthSession = async (
+  req: AdminRequest,
+  res: Response
+) => {
+  try {
+      console.log("checkAuthSession");
+      if (req.session?.member) 
+          res.send(`<script> alert("${req.session.member.memberNick}") </script>`);
+      else 
+          res.send(`<script> alert("${Message.NOT_AUTHENTICATED}") </script>`);
+  } catch (err) {
+      console.log("Error, checkAuthSession:", err);
+      res.send(err);
+  }
+};
+
+export default restaurantController;

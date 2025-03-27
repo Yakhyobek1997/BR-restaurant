@@ -6,7 +6,7 @@ import { Request } from "express";
 
 
 export interface Member {
-    _id: mongoose.Types.ObjectId; // ObjectId dan foydalaning
+    _id: mongoose.Types.ObjectId; // ObjectId
     memberType: MemberType;
     memberStatus?: MemberStatus;
     memberNick: string;
