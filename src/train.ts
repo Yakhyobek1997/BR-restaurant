@@ -1,19 +1,32 @@
-function countVowels(str: string): number {
-  const vowels = ['a', 'e', 'i', 'o', 'u'];
-  let count = 0;
+// L-TASK: 
 
-  for (const char of str.toLowerCase()) {
-    if (vowels.includes(char)) {
-      count++;
-    }
-  }
-
-  return count;
+function reverseSentence(sentence: string): string {
+  return sentence
+    .split(' ') 
+    .map(word => word.split('').reverse().join('')) // Har bir so‘zni chappasiga aylantirish
+    .join(' '); 
 }
 
-// Test
-console.log(countVowels("string")); 
-console.log(countVowels("education")); 
+
+console.log(reverseSentence("what are you doing man ? ")); 
+
+
+// function countVowels(str: string): number {
+//   const vowels = ['a', 'e', 'i', 'o', 'u'];
+//   let count = 0;
+
+//   for (const char of str.toLowerCase()) {
+//     if (vowels.includes(char)) {
+//       count++;
+//     }
+//   }
+
+//   return count;
+// }
+
+// // Test
+// console.log(countVowels("string")); 
+// console.log(countVowels("education")); 
 
 
 
