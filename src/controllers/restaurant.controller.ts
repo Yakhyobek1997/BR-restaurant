@@ -4,7 +4,7 @@ import MemberService from "../models/Member.service";
 import { AdminRequest, LoginInput, MemberInput } from "../libs/types/member";
 import { MemberType } from "../libs/enums/member.enum";
 import session from "express-session";
-import { Message } from "../libs/Errors"
+import Errors, { Message } from "../libs/Errors"
 
 
 // MemberService instansiyasi
@@ -38,50 +38,90 @@ restaurantController.getSignup = (req: Request, res: Response) => {
     res.render("signup"); // views/signup.ejs sahifasini ko‘rsatadi
   } catch (err) {
     console.log("Error, getSignup", err);
+    res.redirect("/admin")
   }
 };
 
 // === POST: Signup (SSR) ===
-restaurantController.processSignup = async (req: AdminRequest, res: Response) => {
+restaurantController.processSignup = async (
+  req: AdminRequest,
+  res: Response
+) => {
   try {
-    console.log("Process Signup");
-    console.log("body", req.body);
+    console.log("processSignup");
 
-    const newMember: MemberInput = req.body; // req.body dan member ma’lumotlari olinadi
-    newMember.memberType = MemberType.RESTAURANT; // memberType ni RESTAURANT qilib beramiz
+    const newMember: MemberInput = req.body; // Formadan kelgan ma’lumotlar
+    newMember.memberType = MemberType.RESTAURANT; // Foydalanuvchini tipini belgilyapmiz
 
-    const result = await memberService.processSignup(newMember); // DB ga yozamiz
-    // TO DO: Sessions Auth
-    req.session.member = result
-    req.session.save(function() {
-      res.send(result)
-    })
+    const result = await memberService.processSignup(newMember); // Service orqali ro‘yxatga olish
 
+    req.session.member = result; // Foydalanuvchini sessiyaga yozamiz
+    req.session.save(function () {
+      res.send(result); // Javob qaytaramiz
+    });
+    
   } catch (err) {
-    console.log("Error, process Signup:", err); // Xatolik logi
-    res.send(err); // Xatolikni yuboramiz
+    console.log("Error, processSignup:", err);
+
+    const message =
+      err instanceof Errors ? err.message : Message.SOMETHING_WENT_WRONG;
+
+    res.send(`
+      <script>
+        alert("${message}");
+        window.location.replace('/admin/signup');
+      </script>
+    `);
   }
 };
+
 
 // === POST: Login (SSR) ===
-restaurantController.processLogin = async (req: AdminRequest, res: Response) => {
+restaurantController.processLogin = async (
+  req: AdminRequest,
+  res: Response
+) => {
   try {
-    console.log("Process login");
-    console.log("Login input: ", req.body);
+    console.log("processLogin");
 
-    const input: LoginInput = req.body; // Login ma’lumotlarini olamiz
-    const result = await memberService.processLogin(input); // Login tekshiriladi
+    const input: LoginInput = req.body; // Foydalanuvchidan kelgan login ma’lumotlari
+    const result = await memberService.processLogin(input); // Service orqali login tekshiruvi
 
-    req.session.member = result
-    req.session.save(function() {
-      res.send(result)
-    })
+    req.session.member = result; // Session'ga foydalanuvchini saqlaymiz
+    req.session.save(function () {
+      res.send(result); // Foydalanuvchini qaytaramiz
+    });
 
   } catch (err) {
-    console.log("Error, Proccess Login:", err); // Xatolik logi
-    res.send(err); // Xatolikni yuboramiz
+    console.log("Error, processLogin:", err);
+
+    const message =
+      err instanceof Errors ? err.message : Message.SOMETHING_WENT_WRONG;
+
+    res.send(`
+      <script>
+        alert("${message}");
+        window.location.replace('/admin/login');
+      </script>
+    `);
   }
 };
+
+restaurantController.logout = async (
+  req: AdminRequest,
+  res: Response
+) => {
+  try {
+      console.log("logout");
+      req.session.destroy(function () {
+        res.redirect("/admin")
+      })
+  } catch (err) {
+      console.log("Error, logout:", err);
+      res.redirect("/admin");
+  }
+};
+
 
 restaurantController.checkAuthSession = async (
   req: AdminRequest,

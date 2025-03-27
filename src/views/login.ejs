@@ -1,6 +1,11 @@
 <%- include('includes/header') %>
 
 <body>
+    <form action="/login" method="POST">
+        <input type="text" name="memberNick" required />
+        <input type="password" name="memberPassword" required />
+        <button>Login</button>
+      </form>
     <div>LOGIN PAGE</div>
 </body>
 </html>
