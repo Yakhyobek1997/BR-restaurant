@@ -1,8 +1,9 @@
 import { T } from "../libs/types/common";
 import { Request, Response } from "express";
 import MemberService from "../models/Member.service";
-import { LoginInput, MemberInput } from "../libs/types/member";
+import { AdminRequest, LoginInput, MemberInput } from "../libs/types/member";
 import { MemberType } from "../libs/enums/member.enum";
+import session from "express-session";
 
 
 // MemberService instansiyasi
@@ -40,7 +41,7 @@ restaurantController.getSignup = (req: Request, res: Response) => {
 };
 
 // === POST: Signup (SSR) ===
-restaurantController.processSignup = async (req: Request, res: Response) => {
+restaurantController.processSignup = async (req: AdminRequest, res: Response) => {
   try {
     console.log("Process Signup");
     console.log("body", req.body);
@@ -49,7 +50,12 @@ restaurantController.processSignup = async (req: Request, res: Response) => {
     newMember.memberType = MemberType.RESTAURANT; // memberType ni RESTAURANT qilib beramiz
 
     const result = await memberService.processSignup(newMember); // DB ga yozamiz
-    res.send(result); // Natijani yuboramiz
+    // TO DO: Sessions Auth
+    req.session.member = result
+    req.session.save(function() {
+      res.send(result)
+    })
+
   } catch (err) {
     console.log("Error, process Signup:", err); // Xatolik logi
     res.send(err); // Xatolikni yuboramiz
@@ -57,7 +63,7 @@ restaurantController.processSignup = async (req: Request, res: Response) => {
 };
 
 // === POST: Login (SSR) ===
-restaurantController.processLogin = async (req: Request, res: Response) => {
+restaurantController.processLogin = async (req: AdminRequest, res: Response) => {
   try {
     console.log("Process login");
     console.log("body", req.body);
@@ -65,7 +71,11 @@ restaurantController.processLogin = async (req: Request, res: Response) => {
     const input: LoginInput = req.body; // Login ma’lumotlarini olamiz
     const result = await memberService.processLogin(input); // Login tekshiriladi
 
-    res.send(result); // Natijani yuboramiz
+    req.session.member = result
+    req.session.save(function() {
+      res.send(result)
+    })
+
   } catch (err) {
     console.log("Error, Proccess Login:", err); // Xatolik logi
     res.send(err); // Xatolikni yuboramiz
