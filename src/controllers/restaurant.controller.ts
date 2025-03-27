@@ -4,62 +4,72 @@ import MemberService from "../models/Member.service";
 import { LoginInput, MemberInput } from "../libs/types/member";
 import { MemberType } from "../libs/enums/member.enum";
 
+
+// MemberService instansiyasi
 const memberService = new MemberService();
 
+// Controller obyekti
 const restaurantController: T = {};
+
+// === GET: Home sahifa ===
 restaurantController.goHome = (req: Request, res: Response) => {
   try {
-    console.log("goHome");
-    res.render("home");
+    console.log("goHome"); // Log
+    res.render("home");    // views/home.ejs sahifasini render qiladi
   } catch (err) {
-    console.log("Error, goHome", err);
+    console.log("Error, goHome", err); // Xatolik bo‘lsa logga yoziladi
   }
 };
 
+// === GET: Login sahifa ===
 restaurantController.getLogin = (req: Request, res: Response) => {
   try {
-    res.render("login");
+    res.render("login"); // views/login.ejs sahifasini ko‘rsatadi
   } catch (err) {
     console.log("Error, getLogin", err);
   }
 };
 
+// === GET: Signup sahifa ===
 restaurantController.getSignup = (req: Request, res: Response) => {
   try {
-    res.render("signup");
+    res.render("signup"); // views/signup.ejs sahifasini ko‘rsatadi
   } catch (err) {
     console.log("Error, getSignup", err);
   }
 };
 
+// === POST: Signup (SSR) ===
 restaurantController.processSignup = async (req: Request, res: Response) => {
   try {
     console.log("Process Signup");
     console.log("body", req.body);
 
-    const newMember: MemberInput = req.body;
-    newMember.memberType = MemberType.RESTAURANT;
+    const newMember: MemberInput = req.body; // req.body dan member ma’lumotlari olinadi
+    newMember.memberType = MemberType.RESTAURANT; // memberType ni RESTAURANT qilib beramiz
 
-    const result = await memberService.processSignup(newMember);
-    res.send(result);
+    const result = await memberService.processSignup(newMember); // DB ga yozamiz
+    res.send(result); // Natijani yuboramiz
   } catch (err) {
-    console.log("Error, process Signup:", err);
-    res.send(err);
+    console.log("Error, process Signup:", err); // Xatolik logi
+    res.send(err); // Xatolikni yuboramiz
   }
 };
 
+// === POST: Login (SSR) ===
 restaurantController.processLogin = async (req: Request, res: Response) => {
   try {
     console.log("Process login");
-
     console.log("body", req.body);
-    const input: LoginInput = req.body,
-      result = await memberService.processLogin(input);
-    res.send(result);
+
+    const input: LoginInput = req.body; // Login ma’lumotlarini olamiz
+    const result = await memberService.processLogin(input); // Login tekshiriladi
+
+    res.send(result); // Natijani yuboramiz
   } catch (err) {
-    console.log("Error, Proccess Login:", err);
-    res.send(err);
+    console.log("Error, Proccess Login:", err); // Xatolik logi
+    res.send(err); // Xatolikni yuboramiz
   }
 };
 
-export default restaurantController;
+export default restaurantController; // Controller eksport qilinadi (router.ts uchun)
