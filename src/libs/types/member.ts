@@ -34,13 +34,18 @@ export interface MemberInput {
     memberPoints?:Number
 }
 
+// Foydalanuvchining tizimga kirish (login) ma'lumotlarini belgilovchi interfeys
 export interface LoginInput {
-    memberNick: string
-    memberPassword: string
+    memberNick: string;
+    // Foydalanuvchining taxallusi yoki foydalanuvchi nomi
+    memberPassword: string;  
+// Foydalanuvchining paroli
 }
 
-
+// Express.js so‘rov obyektini kengaytiruvchi interfeys
 export interface AdminRequest extends Request {
-    member: Member
-    session: Session & { member: Member}
+    member: Member; 
+    // Hozirgi foydalanuvchining ma'lumotlarini saqlovchi obyekt
+    session: Session & { member: Member };
+    // Sessiya obyektiga qo‘shimcha 'member' xususiyatini qo‘shish
 }

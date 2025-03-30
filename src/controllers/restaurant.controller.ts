@@ -7,65 +7,67 @@ import session from "express-session";
 import Errors, { Message } from "../libs/Errors"
 
 
-// MemberService instansiyasi
-const memberService = new MemberService();
 
-// Controller obyekti
-const restaurantController: T = {};
+const memberService = new MemberService(); 
+const restaurantController: T = {}; 
 
 // === GET: Home sahifa ===
 restaurantController.goHome = (req: Request, res: Response) => {
   try {
-    console.log("goHome"); // Log
-    res.render("home");    // views/home.ejs sahifasini render qiladi
+    console.log("goHome"); 
+    res.render("home"); 
   } catch (err) {
-    console.log("Error, goHome", err); // Xatolik bo‘lsa logga yoziladi
+    console.log("Error, goHome", err); 
   }
 };
 
 // === GET: Login sahifa ===
 restaurantController.getLogin = (req: Request, res: Response) => {
   try {
-    res.render("login"); // views/login.ejs sahifasini ko‘rsatadi
+    res.render("login"); 
+    // Login sahifasini (views/login.ejs) render qilamiz
   } catch (err) {
-    console.log("Error, getLogin", err);
+    console.log("Error, getLogin", err); 
+    // Xatolik logi
   }
 };
 
 // === GET: Signup sahifa ===
 restaurantController.getSignup = (req: Request, res: Response) => {
   try {
-    res.render("signup"); // views/signup.ejs sahifasini ko‘rsatadi
+    res.render("signup"); 
+    // Ro‘yxatdan o‘tish sahifasini (views/signup.ejs) render qilamiz
   } catch (err) {
-    console.log("Error, getSignup", err);
-    res.redirect("/admin")
+    console.log("Error, getSignup", err); 
+    // Xatolik logi
+    res.redirect("/admin"); 
+    // Xatolik bo‘lsa admin sahifasiga qaytariladi
   }
 };
 
 // === POST: Signup (SSR) ===
 restaurantController.processSignup = async (
-  req: AdminRequest,
+  req: AdminRequest, 
+  // So‘rov turi - AdminRequest (unda member va session mavjud)
   res: Response
 ) => {
   try {
-    console.log("processSignup");
+    console.log("processSignup"); // Log
 
-    const newMember: MemberInput = req.body; // Formadan kelgan ma’lumotlar
-    newMember.memberType = MemberType.RESTAURANT; // Foydalanuvchini tipini belgilyapmiz
+    const newMember: MemberInput = req.body; 
+    newMember.memberType = MemberType.RESTAURANT;
+    const result = await memberService.processSignup(newMember); 
 
-    const result = await memberService.processSignup(newMember); // Service orqali ro‘yxatga olish
-
-    req.session.member = result; // Foydalanuvchini sessiyaga yozamiz
+    req.session.member = result; 
     req.session.save(function () {
-      res.send(result); // Javob qaytaramiz
+      res.send(result); 
     });
     
   } catch (err) {
-    console.log("Error, processSignup:", err);
+    console.log("Error, processSignup:", err); 
 
     const message =
-      err instanceof Errors ? err.message : Message.SOMETHING_WENT_WRONG;
-
+      err instanceof Errors ? err.message : Message.SOMETHING_WENT_WRONG; 
     res.send(`
       <script>
         alert("${message}");
@@ -75,30 +77,28 @@ restaurantController.processSignup = async (
   }
 };
 
-
 // === POST: Login (SSR) ===
 restaurantController.processLogin = async (
-  req: AdminRequest,
+  req: AdminRequest, // AdminRequest turidagi req
   res: Response
 ) => {
   try {
     console.log("processLogin");
 
-    const input: LoginInput = req.body; // Foydalanuvchidan kelgan login ma’lumotlari
-    const result = await memberService.processLogin(input); // Service orqali login tekshiruvi
+    const input: LoginInput = req.body; 
+    const result = await memberService.processLogin(input); 
     console.log("Login input:", req.body);
 
-    req.session.member = result; // Session'ga foydalanuvchini saqlaymiz
+    req.session.member = result; 
     req.session.save(function () {
-      res.send(result); // Foydalanuvchini qaytaramiz
+      res.send(result); 
     });
 
   } catch (err) {
     console.log("Error, processLogin:", err);
 
     const message =
-      err instanceof Errors ? err.message : Message.SOMETHING_WENT_WRONG;
-
+      err instanceof Errors ? err.message : Message.SOMETHING_WENT_WRONG; // Xatolik xabari
     res.send(`
       <script>
         alert("${message}");
@@ -108,36 +108,34 @@ restaurantController.processLogin = async (
   }
 };
 
-restaurantController.logout = async (
-  req: AdminRequest,
-  res: Response
-) => {
+// === GET: Logout (Sessiyani tugatish) ===
+restaurantController.logout = async (req: AdminRequest, res: Response) => {
   try {
-      console.log("logout");
-      req.session.destroy(function () {
-        res.redirect("/admin")
-      })
+    console.log("logout"); 
+    req.session.destroy(function () {
+      res.redirect("/admin"); 
+    });
   } catch (err) {
-      console.log("Error, logout:", err);
-      res.redirect("/admin");
+    console.log("Error, logout:", err); 
+    res.redirect("/admin");
+  }
+};
+
+// === GET: Autentifikatsiya sessiyasini tekshirish ===
+restaurantController.checkAuthSession = async (req: AdminRequest, res: Response) => {
+  try {
+    console.log("checkAuthSession");
+    if (req.session?.member) 
+      res.send(`<script> alert("${req.session.member.memberNick}") </script>`)
+    else 
+      res.send(`<script> alert("${Message.NOT_AUTHENTICATED}") </script>`);
+  } catch (err) {
+    console.log("Error, checkAuthSession:", err);
+    res.send(err);
   }
 };
 
 
-restaurantController.checkAuthSession = async (
-  req: AdminRequest,
-  res: Response
-) => {
-  try {
-      console.log("checkAuthSession");
-      if (req.session?.member) 
-          res.send(`<script> alert("${req.session.member.memberNick}") </script>`);
-      else 
-          res.send(`<script> alert("${Message.NOT_AUTHENTICATED}") </script>`);
-  } catch (err) {
-      console.log("Error, checkAuthSession:", err);
-      res.send(err);
-  }
-};
 
-export default restaurantController;
+export default restaurantController; 
+
