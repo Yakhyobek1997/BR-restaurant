@@ -1,14 +1,14 @@
 // L-TASK: 
 
-function reverseSentence(sentence: string): string {
-  return sentence
-    .split(' ') 
-    .map(word => word.split('').reverse().join('')) // Har bir so‘zni chappasiga aylantirish
-    .join(' '); 
-}
+// function reverseSentence(sentence: string): string {
+//   return sentence
+//     .split(' ') 
+//     .map(word => word.split('').reverse().join('')) // Har bir so‘zni chappasiga aylantirish
+//     .join(' '); 
+// }
 
 
-console.log(reverseSentence("what are you doing man ? ")); 
+// console.log(reverseSentence("what are you doing man ? ")); 
 
 
 // function countVowels(str: string): number {
@@ -68,6 +68,11 @@ console.log(reverseSentence("what are you doing man ? "));
 */
 
 
+// Validation: 
+
+// 1)Frond end
+// 2)Backend
+// 3)DataBase
 
 
 
