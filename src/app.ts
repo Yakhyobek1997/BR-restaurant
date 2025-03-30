@@ -1,25 +1,14 @@
 import express from "express" 
-// Express modulini import qilamiz. 
-// Bu HTTP server yaratish va marshrutlarni boshqarish uchun ishlatiladi.
 import path from "path" 
-// Foydalanuvchilarga xizmat ko'rsatish 
-// uchun fayl va kataloglar bilan ishlash uchun kerak.
 import router from "./router" 
-// Router faylini import qilamiz, 
-// bu joyda ilovaga tegishli marshrutlar belgilangan.
 import routerAdmin from "./router-admin" 
-// Admin'ga tegishli marshrutlarni
-//  ishlovchi faylni import qilamiz.
 import morgan from "morgan" 
-// HTTP so'rovlar uchun loglarni 
-// yozish uchun ishlatiladi.
 import { MORGAN_FORMAT } from "./libs/config"
- // `morgan` uchun log formatini
- //  konfiguratsiya qiluvchi o'zgaruvchini import qilamiz.
 
 import session from "express-session" 
 // Sessiya boshqaruvi uchun modulni import qilamiz.
 import ConnectMongoDB from "connect-mongodb-session"
+import { T } from "./libs/types/common"
  // Sessiyalarni MongoDB'ga ulash uchun modul.
 
 const MongoDBStore = ConnectMongoDB(session) 
@@ -36,7 +25,6 @@ const store = new MongoDBStore({
 
 // 1-ENTRANCE
 const app = express();
- // Express ilovasi yaratiladi.
 console.log("__dirname:", __dirname, "public"); 
 // Katalog va `public` papkasi haqida ma'lumot chiqaramiz.
 
@@ -68,9 +56,13 @@ app.use(
     })
   );
   
+app.use(function(req,res, next) {
+ const sessionInstance = req.session as T
+ res.locals.member = sessionInstance.member
+ next()
+})
 
 
-// 3-VIEWS
 
 // 3-VIEWS
 app.set('views', path.join(__dirname, "views")); 

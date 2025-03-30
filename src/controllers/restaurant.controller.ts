@@ -1,9 +1,8 @@
 import { T } from "../libs/types/common";
-import { Request, Response } from "express";
+import { Request, Response, NextFunction } from "express";
 import MemberService from "../models/Member.service";
 import { AdminRequest, LoginInput, MemberInput } from "../libs/types/member";
 import { MemberType } from "../libs/enums/member.enum";
-import session from "express-session";
 import Errors, { Message } from "../libs/Errors"
 
 
@@ -135,7 +134,20 @@ restaurantController.checkAuthSession = async (req: AdminRequest, res: Response)
   }
 };
 
+restaurantController.verifyRestaurant = (
+  req: AdminRequest,
+  res: Response,
+  next: NextFunction
+) => {
 
+    if (req.session?.member?.memberType === MemberType.RESTAURANT) {
+      req.member = req.session.member;
+      next()
+    } else {
+      const message = Message.NOT_AUTHENTICATED
+      res.send(`<script> alert("${message}") window.location.replace('/admin/login'); </script>`);
+    }
+};
 
 export default restaurantController; 
 
