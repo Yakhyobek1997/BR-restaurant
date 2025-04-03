@@ -11,7 +11,7 @@ export interface Member {
     memberStatus?: MemberStatus;
     memberNick: string;
     memberPhone: string;
-    memberPassword?: string; // optional qilish kerak delete uchun
+    memberPassword?: string;
     memberAddress?: string;
     memberDesc?: string;
     memberImage?: string;
@@ -47,5 +47,6 @@ export interface AdminRequest extends Request {
     member: Member; 
     // Hozirgi foydalanuvchining ma'lumotlarini saqlovchi obyekt
     session: Session & { member: Member };
-    // Sessiya obyektiga qo‘shimcha 'member' xususiyatini qo‘shish
+    file: Express.Multer.File
+    files: Express.Multer.File[]
 }

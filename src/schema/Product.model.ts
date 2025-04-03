@@ -11,7 +11,7 @@ const productSchema = new Schema (
         default: ProductStatus.PAUSE
       },
 
-      ProductCollection: {
+      productCollection: {
         type:String,
         enum: ProductCollection,
         required : true
@@ -34,8 +34,8 @@ const productSchema = new Schema (
       
       productSize: {
         type: String,
-        enum: ProductSize,
-        default: ProductSize.NORMAL,
+        enum: Object.values(ProductSize),
+        default: ProductSize.MEDIUM,
       },
       
       productVolume: {
@@ -63,5 +63,6 @@ const productSchema = new Schema (
     { timestamps: true} // udatedAt , createdAt
 )
 
-productSchema.index({ productName: 1, productSize: 1, productVolume:  1}, {unique: true})
+productSchema.index({ productName: 1, productSize: 1, productVolume:  1}, {unique: true, }
+)
 export default mongoose.model("Product",productSchema)
