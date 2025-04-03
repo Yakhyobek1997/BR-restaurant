@@ -3,7 +3,7 @@ import { Request, Response, NextFunction } from "express";
 import MemberService from "../models/Member.service";
 import { AdminRequest, LoginInput, MemberInput } from "../libs/types/member";
 import { MemberType } from "../libs/enums/member.enum";
-import Errors, { Message } from "../libs/Errors"
+import Errors, { HttpCode, Message } from "../libs/Errors"
 
 
 
@@ -46,35 +46,37 @@ restaurantController.getSignup = (req: Request, res: Response) => {
 
 // === POST: Signup (SSR) ===
 restaurantController.processSignup = async (
-  req: AdminRequest, 
-  // So‘rov turi - AdminRequest (unda member va session mavjud)
+  req: AdminRequest,
   res: Response
 ) => {
   try {
-    console.log("processSignup"); // Log
+    console.log("processSignup");
+    const file = req.file;
+    if (!file)
+      throw new Errors(HttpCode.BAD_REQUEST, Message.SOMETHING_WENT_WRONG);
 
-    const newMember: MemberInput = req.body; 
+    const newMember: MemberInput = req.body;
+    newMember.memberImage = file?.path;
     newMember.memberType = MemberType.RESTAURANT;
-    const result = await memberService.processSignup(newMember); 
+    const result = await memberService.processSignup(newMember);
 
-    req.session.member = result; 
+    req.session.member = result;
     req.session.save(function () {
-      res.send(result); 
+      res.redirect("/admin/product/all");
     });
-    
   } catch (err) {
-    console.log("Error, processSignup:", err); 
-
+    console.log("Error, processSignup:", err);
     const message =
-      err instanceof Errors ? err.message : Message.SOMETHING_WENT_WRONG; 
+      err instanceof Errors ? err.message : Message.SOMETHING_WENT_WRONG;
     res.send(`
       <script>
         alert("${message}");
-        window.location.replace('/admin/signup');
+        window.location.replace('/admin/signup')
       </script>
     `);
   }
 };
+
 
 // === POST: Login (SSR) ===
 restaurantController.processLogin = async (
@@ -90,7 +92,7 @@ restaurantController.processLogin = async (
 
     req.session.member = result; 
     req.session.save(function () {
-      res.send(result); 
+      res.redirect("/admin/product/all");
     });
 
   } catch (err) {
