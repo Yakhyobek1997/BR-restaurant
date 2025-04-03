@@ -35,7 +35,7 @@ routerAdmin.post(
     productController.createNewProduct);
 
     routerAdmin.post(
-        "/product/:id",
+        "/product/:id", // bu yerda paramni qabul qivommiz mongodan
         restaurantController.verifyRestaurant, 
         productController.updateChosenProduct);
 /** User */
