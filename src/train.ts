@@ -1,13 +1,30 @@
-// TASK M
 
-function getSquareNumbers(numbers: number[]): { number: number, square: number }[] {
-  return numbers.map((num) => ({
-    number: num,
-    square: num * num,
-  }));
+
+function palindromCheck(words : string): boolean {
+  // So'zni teskari qilish
+  const reversed = words.split('').reverse().join('');
+  // taqqoslas
+  return words === reversed;
 }
 
-console.log(getSquareNumbers([1, 2, 3]));
+console.log(palindromCheck("dad")); 
+console.log(palindromCheck("son")); 
+
+
+
+
+
+
+// TASK M
+
+// function getSquareNumbers(numbers: number[]): { number: number, square: number }[] {
+//   return numbers.map((num) => ({
+//     number: num,
+//     square: num * num,
+//   }));
+// }
+
+// console.log(getSquareNumbers([1, 2, 3]));
 
 
 
