@@ -12,32 +12,20 @@ import { T } from "./libs/types/common"
  // Sessiyalarni MongoDB'ga ulash uchun modul.
 
 const MongoDBStore = ConnectMongoDB(session) 
-// `connect-mongodb-session` orqali sessiya saqlash omborini yaratamiz.
 
-// MongoDB'da sessiyalarni saqlash uchun `MongoDBStore` yaratiladi.
 const store = new MongoDBStore({
     uri: String(process.env.MONGO_URL), 
-    // MongoDB URL'ni `.env` faylidan olamiz.
+
     collection: "sessions", 
-    // Sessiyalarni saqlash uchun 
-    // "sessions" deb nomlangan kolleksiya ishlatiladi.
 })
 
 // 1-ENTRANCE
 const app = express();
 console.log("__dirname:", __dirname, "public"); 
-// Katalog va `public` papkasi haqida ma'lumot chiqaramiz.
 
-// Statik fayllarga xizmat ko'rsatish uchun katalogni belgilaymiz.
 app.use(express.static(path.join(__dirname, "public"))); 
-
-// Forma (form) ma'lumotlarini o'qishga imkon beradigan sozlama.
 app.use(express.urlencoded({ extended: true })); 
-
-// JSON formatidagi ma'lumotlarni qayta ishlash uchun middleware.
 app.use(express.json());
-
-// HTTP loglarini `morgan` yordamida yozish.
 app.use(morgan(MORGAN_FORMAT));
 
 
@@ -50,26 +38,16 @@ app.use(
       cookie: {
         maxAge: 1000 * 3600 * 6, // Cookie yaroqlilik muddati: 10 sek
       },
-      store: store, // MongoDB sessiya saqlash joyi
-      resave: true, // Sessiyalarni qayta saqlash (10:30 auth => 13:30 , 31 da yoqoladi)
-      saveUninitialized: true // Bo'sh sessiyalarni saqlash
+      store: store, 
+      resave: true, 
+      saveUninitialized: true 
     })
   );
   
   app.use(function(req, res, next) {
-    // Har bir HTTP so‘rov kelganda bu middleware avtomatik ishlaydi
-  
     const sessionInstance = req.session as T; 
-    // req.session obyektini o'zimiz belgilagan T tipiga o‘tkazamiz (type casting)
-    // T tipida odatda 'member' kabi sessiyadagi foydalanuvchi ma’lumotlari mavjud
-  
     res.locals.member = sessionInstance.member;
-    // session ichidagi 'member' ni olib, uni res.locals ga saqlaymiz
-    // res.locals obyektidagi qiymatlar HTML shablonlarda (masalan EJS) to‘g‘ridan-to‘g‘ri ishlatiladi
-    // Misol: EJS faylda <%= member.name %> deb foydalanuvchi ismini chiqarish mumkin
-  
     next();
-    // Bu middleware tugagach, keyingi middleware yoki route handlerga o‘tadi
   });
   
 
@@ -80,7 +58,7 @@ app.set('view engine', "ejs");
 
 // 4-Routers
 //BSSR: EJS backenda front end qurish
-app.use('/admin', routerAdmin); // EJS admin uchun
+app.use('/admin', routerAdmin);
 app.use('/',router) // REACT: SPA: React rest.api server sifatida ishlatamiz
 // (Middleware design pattern)
 // kelyotgan zapros router ga yubor
