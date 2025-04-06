@@ -43,7 +43,7 @@ routerAdmin.post(
         /** User */
 
  routerAdmin.get("/user/all",restaurantController.verifyRestaurant, restaurantController.getUsers)
-
+ routerAdmin.post("/user/edit",restaurantController.verifyRestaurant, restaurantController.updateChosenUser)
 
 
 

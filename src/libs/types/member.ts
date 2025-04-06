@@ -42,6 +42,22 @@ export interface LoginInput {
 // Foydalanuvchining paroli
 }
 
+
+export interface MemberUpdateInput {
+    // _id: mongoose.Types.ObjectId; // ObjectId
+    _id: ObjectId; // ObjectId
+    memberStatus?: MemberStatus
+    memberNick?: string
+    memberPhone?: string
+    memberPassword?: string
+    memberAddress?: string
+    memberDesc?:string
+    memberImage?:string
+}
+
+
+
+
 // Express.js so‘rov obyektini kengaytiruvchi interfeys
 export interface AdminRequest extends Request {
     member: Member; 
