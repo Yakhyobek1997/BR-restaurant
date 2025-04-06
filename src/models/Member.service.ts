@@ -90,7 +90,7 @@ class MemberService {
   }
 
   public async processLogin(input: LoginInput): Promise<Member> {
-    // 1. Foydalanuvchini taxallus (nickname) bo‘yicha qidirish, kichik-bosh harf sezgir emas (case-insensitive).
+    // 1. Foydalanuvchini taxallus (nickname) bo‘yicha qidirish, kichik-bosh harf (case-insensitive).
     const member = await this.memberModel
       .findOne({ memberNick: new RegExp(`^${input.memberNick}$`, "i") })
 
@@ -121,6 +121,16 @@ class MemberService {
 
     return fullMember.toObject() as Member;
   }
+
+  public async getUsers(): Promise<Member[]> {
+   const result = await this.memberModel
+   .find({ memberType: MemberType.USER})
+   .exec()
+   if (!result) throw new Errors(HttpCode.NOT_FOUND, Message.NO_DATA_FOUND)
+    
+    return result as unknown as Member[]
+  }
+
 }
 
 export default MemberService;

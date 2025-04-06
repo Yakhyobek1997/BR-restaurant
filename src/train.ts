@@ -1,14 +1,14 @@
 
 
-function palindromCheck(words : string): boolean {
-  // So'zni teskari qilish
-  const reversed = words.split('').reverse().join('');
-  // taqqoslas
-  return words === reversed;
-}
+// function palindromCheck(words : string): boolean {
+//   // So'zni teskari qilish
+//   const reversed = words.split('').reverse().join('');
+//   // taqqoslas
+//   return words === reversed;
+// }
 
-console.log(palindromCheck("dad")); 
-console.log(palindromCheck("son")); 
+// console.log(palindromCheck("dad")); 
+// console.log(palindromCheck("son")); 
 
 
 

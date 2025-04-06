@@ -18,9 +18,7 @@ class ProductService {
 
  /* SSR */
 
- public async getAllProducts(
-  
-): Promise<Product[]> {
+ public async getAllProducts(): Promise<Product[]> {
   const result = await this.productModel
     .find()
     .exec();

@@ -38,6 +38,14 @@ routerAdmin.post(
         "/product/:id", // bu yerda paramni qabul qivommiz mongodan
         restaurantController.verifyRestaurant, 
         productController.updateChosenProduct);
-/** User */
+
+
+        /** User */
+
+ routerAdmin.get("/user/all",restaurantController.verifyRestaurant, restaurantController.getUsers)
+
+
+
+
 
 export default routerAdmin;

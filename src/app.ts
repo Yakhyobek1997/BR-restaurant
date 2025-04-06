@@ -56,12 +56,22 @@ app.use(
     })
   );
   
-app.use(function(req,res, next) {
- const sessionInstance = req.session as T
- res.locals.member = sessionInstance.member
- next()
-})
-
+  app.use(function(req, res, next) {
+    // Har bir HTTP so‘rov kelganda bu middleware avtomatik ishlaydi
+  
+    const sessionInstance = req.session as T; 
+    // req.session obyektini o'zimiz belgilagan T tipiga o‘tkazamiz (type casting)
+    // T tipida odatda 'member' kabi sessiyadagi foydalanuvchi ma’lumotlari mavjud
+  
+    res.locals.member = sessionInstance.member;
+    // session ichidagi 'member' ni olib, uni res.locals ga saqlaymiz
+    // res.locals obyektidagi qiymatlar HTML shablonlarda (masalan EJS) to‘g‘ridan-to‘g‘ri ishlatiladi
+    // Misol: EJS faylda <%= member.name %> deb foydalanuvchi ismini chiqarish mumkin
+  
+    next();
+    // Bu middleware tugagach, keyingi middleware yoki route handlerga o‘tadi
+  });
+  
 
 
 // 3-VIEWS
