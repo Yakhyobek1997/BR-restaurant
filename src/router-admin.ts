@@ -44,7 +44,17 @@ routerAdmin.post(
 
  routerAdmin.get("/user/all",restaurantController.verifyRestaurant, restaurantController.getUsers)
  routerAdmin.post("/user/edit",restaurantController.verifyRestaurant, restaurantController.updateChosenUser)
+/*
+ Bu yerda biz routerAdmin orqali /user/all va /user/edit endpointlarini aniqlayapmiz, 
+ ya’ni admin panelda userlar bilan ishlashga mo‘ljallangan marshrutlar.
+Birinchi marshrut — GET /user/all, bu endpointga so‘rov yuborilsa, avval 
+restaurantController.verifyRestaurant ishlaydi — bu middleware function bo‘lib,
+ foydalanuvchi mazkur restaurantga tegishli ekanini yoki admin ekanini tekshiradi.
+Agar tekshiruvdan muvaffaqiyatli o‘tsa, keyin restaurantController.getUsers ishlaydi —
+ bu controller method bo‘lib, u bazadan barcha foydalanuvchilarni olib, brauzerga qaytaradi.
+Bu GET marshrut asosan ma’lumot olish uchun ishlatilad
 
+*/
 
 
 

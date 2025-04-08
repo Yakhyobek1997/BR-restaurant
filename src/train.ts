@@ -1,14 +1,14 @@
 // O-TASK:
 
-function calculateSumOfNumbers(arr: any[]): number {
-  return arr
-    .filter(item => typeof item === 'number')
-    .reduce((sum, num) => sum + num, 0);
-}
+// function calculateSumOfNumbers(arr: any[]): number {
+//   return arr
+//     .filter(item => typeof item === 'number')
+//     .reduce((sum, num) => sum + num, 0);
+// }
 
-// test
-const result = calculateSumOfNumbers([10, "10", { son: 10 }, true, 35]);
-console.log(result);
+// // test
+// const result = calculateSumOfNumbers([10, "10", { son: 10 }, true, 35]);
+// console.log(result);
 
 
 
