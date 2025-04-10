@@ -29,10 +29,10 @@ $(function () {
 });
 
 function validateSignupForm() {
-  const memberNick = $(".member-nick").val();
-  const memberPhone = $(".member-phone").val();
-  const memberPassword = $(".member-password").val();
-  const confirmPassword = $(".confirm-password").val();
+  const memberNick = $(".member-nick").val(),
+    memberPhone = $(".member-phone").val(),
+    memberPassword = $(".member-password").val(),
+    confirmPassword = $(".confirm-password").val();
 
   if (
     memberNick === "" ||
@@ -52,8 +52,8 @@ function validateSignupForm() {
   const memberImage = $(".member-image").get(0).files[0]
     ? $(".member-image").get(0).files[0].name
     : null;
-    if( !memberImage) {
-        alert("Please upload an image!")
-        return false
-    }
+  if (!memberImage) {
+    alert("Please upload an image!");
+    return false;
+  }
 }
