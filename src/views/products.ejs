@@ -54,7 +54,7 @@
                 <td><%= value.productPrice %></td>
                 <td><%= value.productLeftCount %></td>                
               <td>
-                <select class="spec-select new-product-status" id="%= value._id%">
+                <select class="spec-select new-product-status" id="<%= value._id %>">
                   <option value="PAUSE" <%= value.productStatus === 'PAUSE' ? 'selected':'' %> >PAUSE</option>
                   <option value="PROCESS" <%= value.productStatus === 'PROCESS' ? 'selected':'' %> >PROCESS</option>
                   <option value="DELETE" <%= value.productStatus === 'DELETE' ? 'selected':'' %> >DELETE</option>
@@ -77,6 +77,7 @@
           </div>
         </div>
         <form
+        onsubmit = "return validateForm()"
           action="/admin/product/create"
           method="POST"
           class="dish-container"
@@ -171,6 +172,7 @@
                   name="productImages"
                   class="image-one"
                   required
+                  onchange="previewFileHandler(this, 1)"
                 />
               </div>
               <div class="upload-img-box">
@@ -180,6 +182,7 @@
                   id="file"
                   name="productImages"
                   class="image-two"
+                  onchange="previewFileHandler(this, 2)"
                 />
               </div>
               <div class="upload-img-box">
@@ -189,6 +192,7 @@
                   id="file"
                   name="productImages"
                   class="image-three"
+                  onchange="previewFileHandler(this, 3)"
                 />
               </div>
               <div class="upload-img-box">
@@ -198,6 +202,7 @@
                   id="file"
                   name="productImages"
                   class="image-four"
+                  onchange="previewFileHandler(this, 4)"
                 />
               </div>
               <div class="upload-img-box">
@@ -207,6 +212,7 @@
                   id="file"
                   name="productImages"
                   class="image-five"
+                  onchange="previewFileHandler(this, 5)"
                 />
               </div>
               <input name="restaurantIid" class="restaurant-id" hidden />
