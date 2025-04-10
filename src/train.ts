@@ -1,3 +1,18 @@
+function objectToArray(obj: Record<string, any>): [string, any][] {
+  const result: [string, any][] = [];
+  for (let key in obj) {
+    if (Object.prototype.hasOwnProperty.call(obj, key)) {
+      result.push([key, obj[key]]);
+    }
+  }
+  return result;
+}
+
+const example = { a: 10, b: 20 };
+console.log(objectToArray(example));
+
+
+
 // O-TASK:
 
 // function calculateSumOfNumbers(arr: any[]): number {
