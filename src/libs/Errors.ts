@@ -5,7 +5,8 @@ export enum HttpCode {
   UNAUTHORIZED = 401,
   NOT_FOUND = 404,
   INTERNAL_SERVER_ERROR = 500,
-  NOT_MODIFIED,
+  NOT_MODIFIED = 304,
+  FORBIDDEN = 403,
 }
 
 export enum Message {
@@ -18,7 +19,8 @@ export enum Message {
   USED_NICK_PHONE = "You are inserting already used nick or phone",
   MEMBER_NOT_FOUND = " Error memebr not found",
   NOT_AUTHENTICATED = "You are not authenticated, Please login first",
-  UPDATE_FAILED = "UPDATE_FAILED"
+  UPDATE_FAILED = "UPDATE_FAILED",
+  BLOCKED_USER = "You have been blocked!, contact with admin"
 }
 
 class Errors extends Error {
