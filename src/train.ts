@@ -1,15 +1,26 @@
-function objectToArray(obj: Record<string, any>): [string, any][] {
-  const result: [string, any][] = [];
-  for (let key in obj) {
-    if (Object.prototype.hasOwnProperty.call(obj, key)) {
-      result.push([key, obj[key]]);
-    }
-  }
-  return result;
+//Q-TASK:
+
+function hasProperty(obj: object, key: string): boolean {
+  return key in obj;
 }
 
-const example = { a: 10, b: 20 };
-console.log(objectToArray(example));
+console.log(hasProperty({ name: "BMW", model: "M3" }, "model")); // true
+console.log(hasProperty({ name: "BMW", model: "M3" }, "year"));  // false
+
+
+
+// function objectToArray(obj: Record<string, any>): [string, any][] {
+//   const result: [string, any][] = [];
+//   for (let key in obj) {
+//     if (Object.prototype.hasOwnProperty.call(obj, key)) {
+//       result.push([key, obj[key]]);
+//     }
+//   }
+//   return result;
+// }
+
+// const example = { a: 10, b: 20 };
+// console.log(objectToArray(example));
 
 
 
