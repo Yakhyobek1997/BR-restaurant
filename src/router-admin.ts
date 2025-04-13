@@ -13,8 +13,9 @@ routerAdmin.get("/login", restaurantController.getLogin);
 routerAdmin.post("/login", restaurantController.processLogin);
 routerAdmin
   .get("/signup", restaurantController.getSignup)
-
+// methodi post signup uni url ni tekshirb 
   .post("/signup",makeUploader("members").single("memberImage"),
+  
    restaurantController.processSignup);
 
 
@@ -34,7 +35,7 @@ routerAdmin.post(
     makeUploader("products").array("productImages",5),
     productController.createNewProduct);
 
-    routerAdmin.post(
+    routerAdmin.post( // object // method // parametr
         "/product/:id", // bu yerda paramni qabul qivommiz mongodan
         restaurantController.verifyRestaurant, 
         productController.updateChosenProduct);

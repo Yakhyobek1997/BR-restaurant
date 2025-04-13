@@ -1,11 +1,26 @@
+// R-task , yarn run train - orqali run qiling
+
+export {}
+
+function calculate(input: string): number {
+
+    const parts = input.split('+');
+    const sum = parts.reduce((acc, val) => acc + Number(val), 0);
+    return sum;
+  }
+  
+  console.log(calculate("1+3"));
+
+
+
 //Q-TASK:
 
-function hasProperty(obj: object, key: string): boolean {
-  return key in obj;
-}
+// function hasProperty(obj: object, key: string): boolean {
+//   return key in obj;
+// }
 
-console.log(hasProperty({ name: "BMW", model: "M3" }, "model")); // true
-console.log(hasProperty({ name: "BMW", model: "M3" }, "year"));  // false
+// console.log(hasProperty({ name: "BMW", model: "M3" }, "model")); // true
+// console.log(hasProperty({ name: "BMW", model: "M3" }, "year"));  // false
 
 
 
