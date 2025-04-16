@@ -12,20 +12,34 @@ const restaurantController: T = {};
 
 // === GET: Home sahifa ===
 restaurantController.goHome = (req: Request, res: Response) => {
-  try {
-    console.log("goHome"); 
+/* 1) Endi restaurant controler objectni go home methodini yasab ogamiz
+ichida ikta parametr kevotti req va res */
+
+// 2) Keyin arrow function bo'votti ichida try catch blockidan foydalanvommiz*/
+try {
+// 3) try blockni ichidan goHome methodini consolga chiqarvommiz
+    console.log("goHome");
+
     res.render("home"); 
-  } catch (err) {
+// 4) res render qilib home methodini ichidan home sahifaini render qivommiz
+  
+// 5) homega borishda xatolik bolsa catch blogi ishga tushadi
+} catch (err) {
+
     console.log("Error, goHome", err); 
   }
 };
 
 // === GET: Login sahifa ===
 restaurantController.getLogin = (req: Request, res: Response) => {
-  try {
+// 1) RC objecnti get login metodini yasavoldik ichida 2 ta parametr bor req va res
+// ichida 2 ta blocki bor tr va catch
+try {
+// 2) Try blockida login methodini render qilib consolga chiqarvommiz.
     res.render("login"); 
-    // Login sahifasini (views/login.ejs) render qilamiz
   } catch (err) {
+// 3) Keyn login methodi render bolgan vaqtda error bolsa
+// catch blogi ishga tushadi.
     console.log("Error, getLogin", err); 
     // Xatolik logi
   }
@@ -80,14 +94,22 @@ restaurantController.processSignup = async (
 
 // === POST: Login (SSR) ===
 restaurantController.processLogin = async (
+//1) RestaruantConstroller objetni processLogin degan methodimiz bor
+// Va iichida 2 ta parametr qabul qilgan req va res
   req: AdminRequest, // AdminRequest turidagi req
   res: Response
+
+  // 2) Keyn try va catch blogimiz bor 
 ) => {
   try {
     console.log("processLogin");
-
-    const input: LoginInput = req.body; 
+// Tryda birinchi shu processLogin methodiga kelib log qiladi
+    const input: LoginInput = req.body;
+// Keyin req.body ni LoginInput interfazega tenglavommiz
     const result = await memberService.processLogin(input); 
+// MemberServise objectni uni keyn procces login methodini call qilib inputni 
+// ichiga argument sifatida berdik
+// undan qaytkan resultni await orqali kutib olib const resulttga tenglavolik
     console.log("Login input:", req.body);
 
     req.session.member = result; 

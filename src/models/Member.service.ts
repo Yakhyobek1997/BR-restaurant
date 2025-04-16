@@ -95,7 +95,10 @@ class MemberService {
   }
 
   public async processLogin(input: LoginInput): Promise<Member> {
-    // 1. Foydalanuvchini taxallus (nickname) bo‘yicha qidirish, kichik-bosh harf (case-insensitive).
+    // 1. Process login methodni creating qivommiz.
+    // Bu methodimiz asyn va public ekan
+    // bitta parametri bor , u o'zidan promise qaytarvotti
+    // promiseni typi memberga teng ekan
     const member = await this.memberModel
       .findOne({ memberNick: new RegExp(`^${input.memberNick}$`, "i") })
 

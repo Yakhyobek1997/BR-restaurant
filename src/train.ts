@@ -1,15 +1,33 @@
+// TASK S
+
+function missingNumber(arr: number[]): number {
+  const n = arr.length + 1; // chunki bitta son yo‘q
+  const expectedSum = (n * (n - 1)) / 2;
+  const actualSum = arr.reduce((sum, num) => sum + num, 0);
+  return expectedSum - actualSum;
+}
+
+// Test
+console.log(missingNumber([3, 0, 1]));
+console.log(missingNumber([0, 1]));    
+
+
+
+
+
+
 // R-task , yarn run train - orqali run qiling
 
-export {}
+// export {}
 
-function calculate(input: string): number {
+// function calculate(input: string): number {
 
-    const parts = input.split('+');
-    const sum = parts.reduce((acc, val) => acc + Number(val), 0);
-    return sum;
-  }
+//     const parts = input.split('+');
+//     const sum = parts.reduce((acc, val) => acc + Number(val), 0);
+//     return sum;
+//   }
   
-  console.log(calculate("1+3"));
+//   console.log(calculate("1+3"));
 
 
 

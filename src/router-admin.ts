@@ -7,8 +7,12 @@ import  makeUploader from "./libs/utils/uploader";
 // 'restaurantController' modulini import qilish
 // import restaurantController from './controllers/member.controller';
 
-// Bosh sahifaga GET so‘rovi uchun marshrut qo‘shish
+// Router admin bor va uni get methodi kegan
+// ichida ikta argument kevotti birinchisi "/"
+// keyingisi restaurantController.goHome
+// data kelsa avtomatik restaurantController objecnti gohome methodiga boramiz
 routerAdmin.get("/", restaurantController.goHome);
+
 routerAdmin.get("/login", restaurantController.getLogin);
 routerAdmin.post("/login", restaurantController.processLogin);
 routerAdmin

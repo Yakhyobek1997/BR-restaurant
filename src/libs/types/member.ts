@@ -34,13 +34,14 @@ export interface MemberInput {
     memberPoints?:Number
 }
 
-// Foydalanuvchining tizimga kirish (login) ma'lumotlarini belgilovchi interfeys
+// Restaurant controllerdna logindan keldik
+// bu yerda ikta sharti bor memberNick,memberPassword
 export interface LoginInput {
     memberNick: string;
-    // Foydalanuvchining taxallusi yoki foydalanuvchi nomi
     memberPassword: string;  
-// Foydalanuvchining paroli
 }
+// Object malumotni ozi
+// interface uni soyasi
 
 
 export interface MemberUpdateInput {
