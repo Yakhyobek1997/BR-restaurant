@@ -5,7 +5,7 @@ function mergeSortedArrays(arr1: number[], arr2: number[]): number[] {
 
 
 const result = mergeSortedArrays([0, 3, 4, 31], [4, 6, 30]);
-console.log(result); // [0, 3, 4, 4, 6, 30, 31]
+console.log(result);
 
 
 
