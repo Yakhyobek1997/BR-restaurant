@@ -1,15 +1,27 @@
-// TASK S
-
-function missingNumber(arr: number[]): number {
-  const n = arr.length + 1; // chunki bitta son yo‘q
-  const expectedSum = (n * (n - 1)) / 2;
-  const actualSum = arr.reduce((sum, num) => sum + num, 0);
-  return expectedSum - actualSum;
+function mergeSortedArrays(arr1: number[], arr2: number[]): number[] {
+  const merged: number[] = [...arr1, ...arr2];
+  return merged.sort((a, b) => a - b);
 }
 
-// Test
-console.log(missingNumber([3, 0, 1]));
-console.log(missingNumber([0, 1]));    
+
+const result = mergeSortedArrays([0, 3, 4, 31], [4, 6, 30]);
+console.log(result); // [0, 3, 4, 4, 6, 30, 31]
+
+
+
+
+// // TASK S
+
+// function missingNumber(arr: number[]): number {
+//   const n = arr.length + 1; // chunki bitta son yo‘q
+//   const expectedSum = (n * (n - 1)) / 2;
+//   const actualSum = arr.reduce((sum, num) => sum + num, 0);
+//   return expectedSum - actualSum;
+// }
+
+// // Test
+// console.log(missingNumber([3, 0, 1]));
+// console.log(missingNumber([0, 1]));    
 
 
 
