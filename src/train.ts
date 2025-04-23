@@ -1,14 +1,28 @@
-function sumOdds(number : number) {
-  let count = 0;
-  for (let i = 1; i < number; i += 2) {
-    count++;
+function countChars(input: string): Record<string, number> {
+  const result: Record<string, number> = {};
+
+  for (const char of input) {
+    result[char] = (result[char] || 0) + 1;
   }
-  return count;
+
+  return result;
 }
 
-// Test
-console.log(sumOdds(9));
-console.log(sumOdds(11)); 
+console.log(countChars("hello"));
+
+
+
+// function sumOdds(number : number) {
+//   let count = 0;
+//   for (let i = 1; i < number; i += 2) {
+//     count++;
+//   }
+//   return count;
+// }
+
+// // Test
+// console.log(sumOdds(9));
+// console.log(sumOdds(11)); 
 
 
 
