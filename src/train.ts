@@ -1,14 +1,31 @@
-function countChars(input: string): Record<string, number> {
-  const result: Record<string, number> = {};
+// TASK W
 
-  for (const char of input) {
-    result[char] = (result[char] || 0) + 1;
+function chunkArray(array: any[], size: number) {
+  const result = [];
+
+  for (let i = 0; i < array.length; i += size) {
+    result.push(array.slice(i, i + size));
   }
 
   return result;
 }
 
-console.log(countChars("hello"));
+console.log(chunkArray([1,2,3,4,5,6,7,8,9,10], 3));
+
+
+
+
+// function countChars(input: string): Record<string, number> {
+//   const result: Record<string, number> = {};
+
+//   for (const char of input) {
+//     result[char] = (result[char] || 0) + 1;
+//   }
+
+//   return result;
+// }
+
+// console.log(countChars("hello"));
 
 
 
@@ -18,7 +35,7 @@ console.log(countChars("hello"));
 //     count++;
 //   }
 //   return count;
-// }
+// } t 
 
 // // Test
 // console.log(sumOdds(9));
