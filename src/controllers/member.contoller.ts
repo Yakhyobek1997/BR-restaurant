@@ -1,3 +1,4 @@
+import { HttpCode } from './../libs/Errors';
 import { Request, Response } from "express";
 import { MemberInput, LoginInput, Member } from "../libs/types/member";
 import MemberService from "../models/Member.service";
@@ -5,6 +6,7 @@ import { T } from "../libs/types/common";
 import Errors from "../libs/Errors";
 import AuthService from "../models/Auth.service";
 import { token } from "morgan";
+import { AUTH_TIMER } from "../libs/config";
 
 // MemberService klassidan bitta obyekt hosil qilayapmiz, backenddagi user bilan ishlash uchun
 const memberService = new MemberService();
@@ -21,10 +23,13 @@ memberController.signup = async (req: Request, res: Response) => {
     console.log("Signup");
     const input: MemberInput = req.body;
     const result: Member = await memberService.signup(input);
-    const token = await authService.createToken(result)
+    const token = await authService.createToken(result);
+    res.cookie("accesToeken", token, {
+      maxAge: AUTH_TIMER * 3600 * 1000,
+      httpOnly: false,
+    });
 
-
-    res.json({ member: result });
+    res.status(HttpCode.CREATED).json({ member: result , accessToken : token});
   } catch (err) {
     console.log("Error in Signup:", err);
 
@@ -45,8 +50,12 @@ memberController.login = async (req: Request, res: Response) => {
       token = await authService.createToken(result);
     console.log("token=>", token);
     // TODO: TOKENS AUTHENTICATION
+    res.cookie("accesToeken", token, {
+      maxAge: AUTH_TIMER * 3600 * 1000,
+      httpOnly: false,
+    });
 
-    res.json({ member: result });
+    res.status(HttpCode.OK).json({ member: result , accessToken : token});
   } catch (err) {
     console.log("Error, login:", err);
     if (err instanceof Errors) res.status(err.code).json(err);
