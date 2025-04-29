@@ -29,8 +29,6 @@ app.use(express.json()); // res api uchun xizmat qiladi
 app.use(morgan(MORGAN_FORMAT));
 
 
-// 2-SESSIONS
-
 /** 2-SESSIONS **/
 app.use(
     session({
