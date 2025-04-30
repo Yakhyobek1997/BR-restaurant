@@ -1,16 +1,31 @@
-// TASK W
-
-function chunkArray(array: any[], size: number) {
-  const result = [];
-
-  for (let i = 0; i < array.length; i += size) {
-    result.push(array.slice(i, i + size));
+function countOccurrences(obj: any, keyToCount: string): number {
+  let count = 0;
+  for (const key in obj) {
+    if (key === keyToCount) count++;
+    if (typeof obj[key] === 'object' && obj[key] !== null)
+      count += countOccurrences(obj[key], keyToCount);
   }
-
-  return result;
+  return count;
 }
 
-console.log(chunkArray([1,2,3,4,5,6,7,8,9,10], 3));
+console.log(countOccurrences({model: 'Bugatti', steer: {model: 'HANKOOK', size: 30}}, 'model')); // 2
+
+
+
+
+// TASK W
+
+// function chunkArray(array: any[], size: number) {
+//   const result = [];
+
+//   for (let i = 0; i < array.length; i += size) {
+//     result.push(array.slice(i, i + size));
+//   }
+
+//   return result;
+// }
+
+// console.log(chunkArray([1,2,3,4,5,6,7,8,9,10], 3));
 
 
 
