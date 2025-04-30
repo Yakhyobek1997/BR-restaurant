@@ -1,11 +1,15 @@
-import { token } from "morgan";
 import { AUTH_TIMER } from "../libs/config";
 import { Member } from "../libs/types/member";
 import jwt from "jsonwebtoken";
 import Errors, { HttpCode, Message } from "../libs/Errors";
+// import { T } from "../libs/types/common";
 
 class AuthService {
-  constructor() {}
+  private readonly secretToken;
+
+  constructor() {
+    this.secretToken = process.env.SECRET_TOKEN as string;
+  }
 
   public async createToken(payload: Member) {
     return new Promise((resolve, reject) => {
@@ -25,6 +29,15 @@ class AuthService {
         }
       );
     });
+  }
+
+  public async checkAuth(token: string): Promise<Member> {
+    const result: Member = (await jwt.verify(
+      token,
+      this.secretToken
+    )) as Member;
+    console.log(`---[AUTH] memberNick:  ${result.memberNick} ---`);
+    return result as unknown as Member;
   }
 }
 

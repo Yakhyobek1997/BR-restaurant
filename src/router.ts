@@ -7,19 +7,30 @@ import mongoose from 'mongoose';
 mongoose.set('strictQuery', true);
 
 
-router.post('/login', memberController.login);
+
+
+/* MEMBER */ 
+router.post('/member/login', memberController.login);
 
 // /login linyasiga POST so‘rovi yuborilganda,
 // memberControllerdagi login funksiyasini chaqiradi. 
 // Bu funksiya foydalanuvchini tizimga kirishini boshqaradi.
 
 
-router.post('/signup',memberController.signup)
+router.post('/member/signup',memberController.signup)
 
 // /signup linega POST sorovi yuborilganda, 
 // memberControllerdagi signup funksiyasini chaqiradi. 
 // Bu funksiya yangi userlani ro‘yxatdan o‘tkazishni boshqaradi.​
 
+
+router.get("/member/detail", memberController.verifyAuth)
+
+
+
+/* PRODUCT */ 
+
+/* Order */ 
 
 
 export default router
