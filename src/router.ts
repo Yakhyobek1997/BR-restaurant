@@ -23,7 +23,7 @@ router.post('/member/signup',memberController.signup)
 // memberControllerdagi signup funksiyasini chaqiradi. 
 // Bu funksiya yangi userlani ro‘yxatdan o‘tkazishni boshqaradi.​
 
-
+router.post("/member/logout",memberController.verifyAuth , memberController.logout)
 router.get("/member/detail", memberController.verifyAuth)
 
 
