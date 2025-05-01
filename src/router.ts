@@ -1,9 +1,8 @@
-// React
-
 import express from "express";
 const router = express.Router(); // router variablni xosil qilamiz va (Router methodni chaqiramiz)
 import memberController from "./controllers/member.contoller";
 import mongoose from "mongoose";
+import uploader from "./libs/utils/uploader";
 mongoose.set("strictQuery", true);
 
 /* MEMBER */
@@ -24,7 +23,18 @@ router.post(
   memberController.verifyAuth,
   memberController.logout
 );
-router.get("/member/detail", memberController.verifyAuth, memberController.getMemberDetail);
+router.get(
+  "/member/detail",
+  memberController.verifyAuth,
+  memberController.getMemberDetail
+);
+
+router.post("/member/update",
+    memberController.verifyAuth,
+    uploader("members").single("memberImage"),
+    memberController.updateMember
+)
+
 
 /* PRODUCT */
 
