@@ -1,5 +1,10 @@
 import MemberModel from "../schema/Member.model";
-import { LoginInput, Member, MemberInput, MemberUpdateInput } from "../libs/types/member";
+import {
+  LoginInput,
+  Member,
+  MemberInput,
+  MemberUpdateInput,
+} from "../libs/types/member";
 import Errors, { HttpCode, Message } from "../libs/Errors";
 import { MemberStatus, MemberType } from "../libs/enums/member.enum";
 import bcrypt from "bcryptjs";
@@ -37,18 +42,20 @@ class MemberService {
   public async login(input: LoginInput): Promise<Member> {
     const member = await this.memberModel
       .findOne(
-        { memberNick: input.memberNick, 
-          memberStatus: { $ne: MemberStatus.DELETE}},
+        {
+          memberNick: input.memberNick,
+          memberStatus: { $ne: MemberStatus.DELETE },
+        },
 
         { memberNick: 1, memberPassword: 1, memberStatus: 1 }
       )
       .exec();
 
     if (!member) throw new Errors(HttpCode.NOT_FOUND, Message.NOT_MEMBER_NICK);
-    else if(member.memberStatus === MemberStatus.BLOCK) {
-      throw new Errors(HttpCode.FORBIDDEN, Message.BLOCKED_USER)
+    else if (member.memberStatus === MemberStatus.BLOCK) {
+      throw new Errors(HttpCode.FORBIDDEN, Message.BLOCKED_USER);
     }
-   
+
     const isMatch = await bcrypt.compare(
       input.memberPassword,
       member.memberPassword
@@ -70,33 +77,42 @@ class MemberService {
     return fullMember;
   }
 
-
   public async getMemberDetail(member: Member): Promise<Member> {
     const memberId = shapeIntoMongooseObjectId(member._id);
     const result = await this.memberModel
-        .findOne({ _id: memberId, memberStatus: MemberStatus.ACTIVE })
-        .exec();
+      .findOne({ _id: memberId, memberStatus: MemberStatus.ACTIVE })
+      .exec();
     if (!result) throw new Errors(HttpCode.NOT_FOUND, Message.NO_DATA_FOUND);
     return result as Member;
-}
+  }
 
-public async updateMember(
-  member: Member,
-  input: MemberUpdateInput
-): Promise<Member> {
-  const memberId = shapeIntoMongooseObjectId(member._id);
-  const result = await this.memberModel
-    .findOneAndUpdate({ _id: memberId }, input, { new: true })
-    .exec();
+  public async updateMember(
+    member: Member,
+    input: MemberUpdateInput
+  ): Promise<Member> {
+    const memberId = shapeIntoMongooseObjectId(member._id);
+    const result = await this.memberModel
+      .findOneAndUpdate({ _id: memberId }, input, { new: true })
+      .exec();
 
-  if (!result)
-    throw new Errors(HttpCode.NOT_MODIFIED, Message.UPDATE_FAILED);
+    if (!result) throw new Errors(HttpCode.NOT_MODIFIED, Message.UPDATE_FAILED);
 
-  return result as Member ;
-}
+    return result as Member;
+  }
 
+  public async getTopUsers(): Promise<Member[]> {
+    const result = await this.memberModel
+      .find({
+        memberStatus: MemberStatus.ACTIVE,
+        memberPoints: { $gte: 1 },
+      })
+      .sort({ memberPoints: -1 })
+      .limit(4)
+      .exec();
+    if (!result) throw new Errors(HttpCode.NOT_FOUND, Message.NO_DATA_FOUND);
 
-
+    return result as unknown as Member[];
+  }
 
   /*===============================
      SSR uchun SIGNUP
@@ -159,28 +175,24 @@ public async updateMember(
   }
 
   public async getUsers(): Promise<Member[]> {
-   const result = await this.memberModel
-   .find({ memberType: MemberType.USER})
-   .exec()
-   if (!result) throw new Errors(HttpCode.NOT_FOUND, Message.NO_DATA_FOUND)
-    
-    return result as unknown as Member[]
+    const result = await this.memberModel
+      .find({ memberType: MemberType.USER })
+      .exec();
+    if (!result) throw new Errors(HttpCode.NOT_FOUND, Message.NO_DATA_FOUND);
+
+    return result as unknown as Member[];
   }
 
-
   public async updateChosenUser(input: MemberUpdateInput): Promise<Member> {
-    input._id = shapeIntoMongooseObjectId(input._id)
+    input._id = shapeIntoMongooseObjectId(input._id);
 
     const result = await this.memberModel
-    .findByIdAndUpdate({ _id : input._id},input, {new: true})
-    .exec()
-    if (!result) throw new Errors(HttpCode.NOT_FOUND, Message.NO_DATA_FOUND)
-     
+      .findByIdAndUpdate({ _id: input._id }, input, { new: true })
+      .exec();
+    if (!result) throw new Errors(HttpCode.NOT_FOUND, Message.NO_DATA_FOUND);
+
     return result.toObject();
-   }
-
-
-
+  }
 }
 
 export default MemberService;

@@ -112,6 +112,22 @@ const result = await memberService.updateMember(req.member, input)
 }
 
 
+memberController.getTopUsers = async (req: Request, res: Response) => {
+  try {
+    console.log("getTopUsers"); // print out qilish uchun log qivotti
+    const result = await memberService.getTopUsers()
+    // memberservise objectni gettop user methodini call qilib
+
+    res.status(HttpCode.OK).json(result);
+  } catch (err) {
+    console.log("Error, getTopUsers:", err);
+    if (err instanceof Errors)
+      res.status(err.code).json(err);
+    else
+      res.status(Errors.standard.code).json(Errors.standard);
+  }
+};
+
 
 memberController.verifyAuth = async (
   req: ExtendedRequest,
