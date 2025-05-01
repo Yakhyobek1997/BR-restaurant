@@ -6,6 +6,9 @@ import uploader from "./libs/utils/uploader";
 mongoose.set("strictQuery", true);
 
 /* MEMBER */
+
+router.get("/member/restaurant", memberController.getRestaurant)
+
 router.post("/member/login", memberController.login);
 
 // /login linyasiga POST so‘rovi yuborilganda,
