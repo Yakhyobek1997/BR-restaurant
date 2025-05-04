@@ -2,9 +2,6 @@
 // MVC = MODEL View Controller
 // Design pattern: Middleware,Decorate
 
-
-// .env faylidagi o'zgaruvchilarni import qilish
-// uchun 'dotenv' modulini import qilyapmiz
 // va .env fayldan konfiguratsiyani o'qiymiz.
 import dotenv from "dotenv";
 dotenv.config();
@@ -12,8 +9,6 @@ dotenv.config();
 // Mongoose modulini import qilamiz. 
 // Bu modul MongoDB bilan ishlash uchun kerak.
 import mongoose from "mongoose";
-
-// app faylni import qilamiz. app 
 // HTTP serverni ishga tushiruvchi asosiy Express ilova.
 import app from "./app";
 
@@ -21,7 +16,6 @@ import app from "./app";
 //  Bu ulanishni 'process.env.MONGO_URL' 
 // orqali konfiguratsiya qilyapmiz.
 // .env faylida MONGO_URL degan ulanishni 
-// aniqlovchi o'zgaruvchi bo'lishi kerak.
 mongoose
   .connect(process.env.MONGO_URL as string, {})
   .then(() => {

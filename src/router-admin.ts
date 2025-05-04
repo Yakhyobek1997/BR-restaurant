@@ -4,8 +4,6 @@ import restaurantController from "./controllers/restaurant.controller";
 import productController from "./controllers/product.controller";
 import  makeUploader from "./libs/utils/uploader";
 
-// 'restaurantController' modulini import qilish
-// import restaurantController from './controllers/member.controller';
 
 // Router admin bor va uni get methodi kegan
 // ichida ikta argument kevotti birinchisi "/"

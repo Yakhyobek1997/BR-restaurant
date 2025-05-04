@@ -12,18 +12,21 @@ import { T } from "../libs/types/common";
 import AuthService from "../models/Auth.service";
 import { AUTH_TIMER } from "../libs/config";
 
-// MemberService klassidan bitta obyekt hosil qilayapmiz, backenddagi user bilan ishlash uchun
+// MemberService klassidan bitta obyekt hosil 
+// qilayapmiz, backenddagi user bilan ishlash uchun
+
 const memberService = new MemberService();
 const authService = new AuthService();
 
-// memberController degan bo‘sh obyekt yaratyapmiz, unga quyida signup, login funksiyalarini biriktiramiz
+// memberController degan bo‘sh obyekt yaratyapmiz, 
+// unga quyida signup, login funksiyalarini biriktiramiz
 const memberController: T = {};
 
 memberController.getRestaurant = async (req: Request, res: Response) => {
   try {
     console.log("getRestaurant");
-    const result = await memberService.getRestaurant()
-    res.status(HttpCode.OK).json(result)
+    const result = await memberService.getRestaurant();
+    res.status(HttpCode.OK).json(result);
   } catch (err) {
     console.log("Error in getRestaurant:", err);
 
@@ -112,7 +115,7 @@ memberController.updateMember = async (req: ExtendedRequest, res: Response) => {
   try {
     console.log("updateMember");
     const input: MemberUpdateInput = req.body;
-    if (req.file) input.memberImage = req.file.path.replace(/\\/, "/");
+    if (req.file) input.memberImage = req.file.path.replace(/\\/g, "/");
 
     const result = await memberService.updateMember(req.member, input);
     res.status(HttpCode.OK).json(result);
@@ -137,42 +140,57 @@ memberController.getTopUsers = async (req: Request, res: Response) => {
   }
 };
 
+
+
+/*Middleware mantigi bo‘lib, userni autentifikatsiyadan o'tganligini tekshiradi */
+
+// MemberCon ichida verifyAuth degan method bor, bu asynxron methoddir, unda await bolganligi uchun
 memberController.verifyAuth = async (
+// keyn 3 ta parametr qabul qiladi.
   req: ExtendedRequest,
   res: Response,
   next: NextFunction
-) => {
+) => { // keyn ikta block bor try vacatch
   try {
     const token = req.cookies["accessToken"];
-    if (token) req.member = await authService.checkAuth(token);
-
-    if (!req.member)
+  // Birinchi  req.cookies["accessToken"] orqali token olinmoqda,
+  // req objecti orqali cookie ichidan olib token nomli variablega saqlavommiz
+  if (token) req.member = await authService.checkAuth(token);
+  // token bo'lsa authService degan servis obyektining checkAuth degan asynchronous methodi chaqirilmoqda.
+ // keyn bu methodga argument sifatida token yuborilmoqda 
+    if (!req.member) // agar req.member bo'lmasa
       throw new Errors(HttpCode.UNAUTHORIZED, Message.NOT_AUTHENTICATED);
-    next();
-  } catch (err) {
+  // HttpCode.UNAUTHORIZED (bu 401 status kodi bo‘ladi);
+    next(); // keyingi middle warega o'tadi
+  } catch (err) { 
     console.log("Error, verifyAuth:", err);
     if (err instanceof Errors) res.status(err.code).json(err);
     else res.status(Errors.standard.code).json(Errors.standard);
   }
 };
 
-memberController.retrieveAuth = async (
+
+/* Kirib kevotkan REQ larni kimligini tekshiradi */
+memberController.retrieveAuth = async ( // buyerda U asinxron (async) await ishlatadi.
   req: ExtendedRequest,
   res: Response,
   next: NextFunction
 ) => {
   try {
     let member = null;
-    const token = req.cookies["accessToken"];
-    if (token) member = await authService.checkAuth(token);
-
+    const token = req.cookies["accessToken"];// req cokines ichida accessTokenni tekshiradi
+    // agar token mavjud bolsa payloadni await qilib memberga yuklab beradi
+    if (token) member = await authService.checkAuth(token)
+// authService.checkAuth(token) orqali token dekodlanib, member aniqlanmoqda.
     if (!member)
       throw new Errors(HttpCode.UNAUTHORIZED, Message.NOT_AUTHENTICATED);
 
     res.status(HttpCode.OK).json({ member: member });
     next();
   } catch (err) {
+      // Xatolik consolega log qilinadi.  
     console.log("Error, retrieveAuth:", err);
+
     next();
   }
 };

@@ -3,6 +3,7 @@ const router = express.Router(); // router variablni xosil qilamiz va (Router me
 import memberController from "./controllers/member.contoller";
 import mongoose from "mongoose";
 import uploader from "./libs/utils/uploader";
+import productController from "./controllers/product.controller";
 mongoose.set("strictQuery", true);
 
 /* MEMBER */
@@ -40,6 +41,9 @@ router.post("/member/update",
 
 router.get("/member/top-users", memberController.getTopUsers)
 /* PRODUCT */
+
+router.get("/product/all", productController.getProducts)
+
 
 /* Order */
 
