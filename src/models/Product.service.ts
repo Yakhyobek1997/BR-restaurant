@@ -28,32 +28,33 @@ class ProductService {
   /* SPA */
   public async getProducts(inquiry: ProductInquiry): Promise<Product[]> {
     const match: T = { productStatus: ProductStatus.PROCESS };
-
+  
     if (inquiry.productCollection)
-      match.productCollect = inquiry.productCollection;
+      match.productCollection = inquiry.productCollection; // ✅ to‘g‘rilandi
+  
     if (inquiry.search) {
       match.productName = { $regex: new RegExp(inquiry.search, "i") };
     }
-
+  
     const sort: T =
       inquiry.order === "productPrice"
         ? { [inquiry.order]: 1 }
         : { [inquiry.order]: -1 };
-
+  
     const result = await this.productModel
       .aggregate([
-        { $match: match }, // processda bo';gan prod topib ber
+        { $match: match },
         { $sort: sort },
         { $skip: (inquiry.page * 1 - 1) * inquiry.limit },
-        { $limit: inquiry.limit * 1 }, // qanchadir malumotni o'tkazish
-        // MongoDB aggregation pipeline steps will be inserted here
+        { $limit: inquiry.limit * 1 },
       ])
       .exec();
-
+  
     if (!result) throw new Errors(HttpCode.NOT_FOUND, Message.NO_DATA_FOUND);
-
+  
     return result;
   }
+  
 
   public async getProduct(
     memberId: mongoose.Types.ObjectId | null,

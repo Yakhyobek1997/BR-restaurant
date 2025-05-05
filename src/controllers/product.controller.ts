@@ -18,16 +18,23 @@ productController.getProducts = async (req: Request, res: Response) => {
     console.log("getProducts");
 
     const { page, limit, order, productCollection, search } = req.query;
+
     const inquiry: ProductInquiry = {
       order: String(order),
       page: Number(page),
       limit: Number(limit),
     };
 
-    if (productCollection) {
+    if (
+      typeof productCollection === "string" &&
+      Object.values(ProductCollection).includes(productCollection as ProductCollection)
+    ) {
       inquiry.productCollection = productCollection as ProductCollection;
     }
-    if (search) inquiry.search = String(search);
+
+    if (search) {
+      inquiry.search = String(search);
+    }
 
     const result = await productService.getProducts(inquiry);
 
@@ -38,6 +45,7 @@ productController.getProducts = async (req: Request, res: Response) => {
     else res.status(Errors.standard.code).json(Errors.standard);
   }
 };
+
 
 productController.getProduct = async (req: ExtendedRequest, res: Response) => {
   try {

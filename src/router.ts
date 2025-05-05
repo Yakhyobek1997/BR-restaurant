@@ -52,4 +52,7 @@ router.get(
 
 /* Order */
 
+// router.get("/all", orderController.getAllOrders);
+
+
 export default router;
