@@ -8,7 +8,7 @@ mongoose.set("strictQuery", true);
 
 /* MEMBER */
 
-router.get("/member/restaurant", memberController.getRestaurant)
+router.get("/member/restaurant", memberController.getRestaurant);
 
 router.post("/member/login", memberController.login);
 
@@ -33,17 +33,22 @@ router.get(
   memberController.getMemberDetail
 );
 
-router.post("/member/update",
-    memberController.verifyAuth,
-    uploader("members").single("memberImage"),
-    memberController.updateMember
-)
+router.post(
+  "/member/update",
+  memberController.verifyAuth,
+  uploader("members").single("memberImage"),
+  memberController.updateMember
+);
 
-router.get("/member/top-users", memberController.getTopUsers)
+router.get("/member/top-users", memberController.getTopUsers);
 /* PRODUCT */
 
-router.get("/product/all", productController.getProducts)
-
+router.get("/product/all", productController.getProducts);
+router.get(
+  "/product/:id",
+  memberController.retrieveAuth,
+  productController.getProduct
+);
 
 /* Order */
 

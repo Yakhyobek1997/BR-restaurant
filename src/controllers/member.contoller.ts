@@ -177,15 +177,11 @@ memberController.retrieveAuth = async ( // buyerda U asinxron (async) await ishl
   next: NextFunction
 ) => {
   try {
-    let member = null;
     const token = req.cookies["accessToken"];// req cokines ichida accessTokenni tekshiradi
     // agar token mavjud bolsa payloadni await qilib memberga yuklab beradi
-    if (token) member = await authService.checkAuth(token)
+    if (token) req.member = await authService.checkAuth(token)
 // authService.checkAuth(token) orqali token dekodlanib, member aniqlanmoqda.
-    if (!member)
-      throw new Errors(HttpCode.UNAUTHORIZED, Message.NOT_AUTHENTICATED);
 
-    res.status(HttpCode.OK).json({ member: member });
     next();
   } catch (err) {
       // Xatolik consolega log qilinadi.  
