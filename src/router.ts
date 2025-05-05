@@ -4,6 +4,7 @@ import memberController from "./controllers/member.contoller";
 import mongoose from "mongoose";
 import uploader from "./libs/utils/uploader";
 import productController from "./controllers/product.controller";
+import orderController from "./controllers/order.controller";
 mongoose.set("strictQuery", true);
 
 /* MEMBER */
@@ -44,6 +45,7 @@ router.get("/member/top-users", memberController.getTopUsers);
 /* PRODUCT */
 
 router.get("/product/all", productController.getProducts);
+
 router.get(
   "/product/:id",
   memberController.retrieveAuth,
@@ -52,7 +54,10 @@ router.get(
 
 /* Order */
 
-// router.get("/all", orderController.getAllOrders);
-
+router.post( // rest api methodi post
+  "/order/create", // keyn order endpointga mueojat qilib
+  memberController.verifyAuth, // birinchi auth bolgan usermi tekshiradi
+  orderController.createOrder // keyn orderc ni create order methodiga push qiladi
+);
 
 export default router;
