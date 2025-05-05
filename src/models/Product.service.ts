@@ -30,7 +30,7 @@ class ProductService {
     const match: T = { productStatus: ProductStatus.PROCESS };
   
     if (inquiry.productCollection)
-      match.productCollection = inquiry.productCollection; // ✅ to‘g‘rilandi
+      match.productCollection = inquiry.productCollection;
   
     if (inquiry.search) {
       match.productName = { $regex: new RegExp(inquiry.search, "i") };
@@ -59,48 +59,58 @@ class ProductService {
   public async getProduct(
     memberId: mongoose.Types.ObjectId | null,
     id: string,
-    status: ProductStatus = ProductStatus.PROCESS
-  ): Promise<Product> {
+    status?: ProductStatus
+  ): Promise<any> {
     const productId = shapeIntoMongooseObjectId(id);
   
-    let result = await this.productModel
-      .findOne({ _id: productId, productStatus: status })
-      .exec();
+    const query: any = { _id: productId };
+    if (status) query.productStatus = status;
+  
+    console.log("QUERY:", query);
+  
+    let result = await this.productModel.findOne(query).exec();
   
     if (!result) {
-      if (memberId) {
-        // Check if member has already viewed this product
-        const input: ViewInput = {
-          memberId: memberId,
-          viewRefId: productId,
-          viewGroup: ViewGroup.PRODUCT,
-        };
+      throw new Errors(HttpCode.NOT_FOUND, Message.NO_DATA_FOUND);
+    }
   
-        const existView = await this.viewService.checkViewExistence(input);
+    let viewed = false;
   
-        if (!existView) {
-          console.log("PLANNING TO INSERT VIEW LOG");
-          await this.viewService.insertMemberView(input);
+    if (memberId) {
+      const input: ViewInput = {
+        memberId,
+        viewRefId: productId,
+        viewGroup: ViewGroup.PRODUCT,
+      };
   
-          // Increment product view count
-          result = await this.productModel
-            .findByIdAndUpdate(
-              productId,
-              { $inc: { productViews: 1 } },
-              { new: true }
-            )
-            .exec();
+      const existView = await this.viewService.checkViewExistence(input);
+  
+      if (!existView) {
+        await this.viewService.insertMemberView(input);
+  
+        result = await this.productModel.findByIdAndUpdate(
+          productId,
+          { $inc: { productViews: 1 } },
+          { new: true }
+        ).exec();
+  
+        if (!result) {
+          throw new Errors(HttpCode.NOT_FOUND, Message.NO_DATA_FOUND);
         }
-      }
-  
-      // Still not found after update attempt
-      if (!result) {
-        throw new Errors(HttpCode.NOT_FOUND, Message.NO_DATA_FOUND);
+      } else {
+        viewed = true;
       }
     }
   
-    return result.toObject() as Product;
+    return {
+      ...result.toObject(),
+      viewer: {
+        isLoggedIn: !!memberId,
+        viewed: viewed,
+      },
+    };
   }
+  
   
 
   /* SSR */
