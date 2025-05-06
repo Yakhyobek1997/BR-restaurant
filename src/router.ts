@@ -54,10 +54,22 @@ router.get(
 
 /* Order */
 
-router.post( // rest api methodi post
+router.post(
+  // rest api methodi post
   "/order/create", // keyn order endpointga mueojat qilib
   memberController.verifyAuth, // birinchi auth bolgan usermi tekshiradi
   orderController.createOrder // keyn orderc ni create order methodiga push qiladi
 );
 
+router.get(
+  "/order/all",
+  memberController.verifyAuth,
+  orderController.getMyOrders
+);
+
+router.post(
+  "/order/update",
+  memberController.verifyAuth,
+  orderController.updateOrder
+);
 export default router;

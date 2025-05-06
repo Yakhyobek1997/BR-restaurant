@@ -13,15 +13,19 @@ import { shapeIntoMongooseObjectId } from "../libs/config";
 import { error } from "console";
 
 class MemberService {
-  private readonly memberModel: typeof MemberModel;
-
-  constructor() {
-    this.memberModel = MemberModel;
+  static addUserPoint: any;
+  static addUserPoin() {
+      throw new Error("Method not implemented.");
+  }
+  private readonly memberModel;
+  constructor(){
+      this.memberModel = MemberModel;
   }
 
   public async getRestaurant(): Promise<Member> {
     const result = await this.memberModel
       .findOne({ memberType: MemberType.RESTAURANT })
+      .lean()
       .exec();
       if(!result) throw new Errors(HttpCode.NOT_FOUND, Message.NO_DATA_FOUND)
       
@@ -122,6 +126,30 @@ class MemberService {
 
     return result as unknown as Member[];
   }
+
+
+  public async addUserPoint(member: Member, point: number): Promise<Member> {
+    const memberId = shapeIntoMongooseObjectId(member._id);
+
+    const updatedMember = await this.memberModel
+      .findOneAndUpdate(
+        {
+          _id: memberId,
+          memberType: MemberType.USER,
+          memberStatus: MemberStatus.ACTIVE,
+        },
+        { $inc: { memberPoints: point } },
+        { new: true }
+      )
+      .exec();
+
+    if (!updatedMember) {
+      throw new Errors(HttpCode.NOT_FOUND, Message.NO_DATA_FOUND);
+    }
+
+    return updatedMember as Member;
+  }
+
 
   /*===============================
      SSR uchun SIGNUP
