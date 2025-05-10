@@ -1,8 +1,11 @@
 import mongoose, { Schema } from "mongoose";
 
+// Orderlar qaysi orderga bogliqligini anglatadi
+// Schema modellarini o'qib berib, 
+// Collection nomini ko'plida taxlab beradi
 const orderItemSchema = new Schema(
   {
-    itemQuantity: {
+    itemQuantity: { 
       type: Number,
       required: true,
     },
@@ -13,11 +16,11 @@ const orderItemSchema = new Schema(
     },
 
     orderId: {
-      type: Schema.Types.ObjectId,
+      type: Schema.Types.ObjectId, 
       ref: "Order",
     },
 
-    productId: {
+    productId: { // order Item qaysi product da xosil bolgan
       type: Schema.Types.ObjectId,
       ref: "Product",
     },

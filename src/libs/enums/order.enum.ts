@@ -4,3 +4,5 @@ export enum OrderStatus {
  FINISH = "FINISH",
  DELETE = "DELETE"
 }
+// Basket orqali orderni xosil qisez  
+// PAUSE = "PAUSE",  PROCESS = "PROCESS",

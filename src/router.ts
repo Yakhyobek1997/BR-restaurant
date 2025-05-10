@@ -40,8 +40,8 @@ router.post(
   uploader("members").single("memberImage"),
   memberController.updateMember
 );
-
 router.get("/member/top-users", memberController.getTopUsers);
+
 /* PRODUCT */
 
 router.get("/product/all", productController.getProducts);
@@ -49,27 +49,35 @@ router.get("/product/all", productController.getProducts);
 router.get(
   "/product/:id",
   memberController.retrieveAuth,
-  productController.getProduct
+  productController.getProduct 
+  // productCon Objectni getProduct methodga yuboradi
 );
 
 /* Order */
 
 router.post(
-  // rest api methodi post
+// rest api methodi post
   "/order/create", // keyn order endpointga mueojat qilib
-  memberController.verifyAuth, // birinchi auth bolgan usermi tekshiradi
-  orderController.createOrder // keyn orderc ni create order methodiga push qiladi
+  memberController.verifyAuth, 
+// birinchi auth bolgan usermi tekshiradi (login bolgan yoki yoqligini)
+  orderController.createOrder 
+// keyn login bogan bolsa orderc ni create order methodiga push qiladi
 );
 
-router.get(
+router.get( // rest api methodi get
   "/order/all",
   memberController.verifyAuth,
   orderController.getMyOrders
 );
 
-router.post(
+router.post( 
   "/order/update",
   memberController.verifyAuth,
   orderController.updateOrder
 );
 export default router;
+
+
+// Retriever - Login bo'lsa reqni boyitadi
+// Authent - Login bo'lganini tekshiradi loin bolmsagan bolsa o'tkazmayi
+// Authora - Bunda huquni tekshiradi, Mumkin yoki mumkinmasligi

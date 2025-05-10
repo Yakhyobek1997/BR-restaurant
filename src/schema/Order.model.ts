@@ -1,19 +1,19 @@
 import mongoose, { Schema } from "mongoose";
 import { OrderStatus } from "../libs/enums/order.enum";
 
-const orderSchema = new Schema(
+const orderSchema = new Schema( // orderSchema modelni xosil qildik
   {
-    orderTotal: {
+    orderTotal: { // orderTotal datasetni xosil qildik
       type: Number,
       required: true,
     },
 
-    orderDelivery: {
+    orderDelivery: {  // orderDelivery dataset
       type: Number,
       required: true,
     },
 
-    orderStatus: {
+    orderStatus: { 
       type: String,
       enum: OrderStatus,
       default: OrderStatus.PAUSE,
@@ -29,3 +29,5 @@ const orderSchema = new Schema(
 );
 
 export default mongoose.model("Order", orderSchema);
+
+// Keyin orderga daxildor bolgan enumni xosil qilamiz
