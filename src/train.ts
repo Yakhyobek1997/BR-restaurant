@@ -1,12 +1,30 @@
-// ZB TASK
+// Tsk ZD
 
-function randomBetween(min: number, max: number): number {
-  return Math.floor(Math.random() * (max - min + 1)) + min;
+function changeNumberInArray(index: number, arr: number[], newValue: number): number[] {
+  if (index < 0 || index >= arr.length) {
+    throw new Error("Index out of bounds");
+  }
+
+  const newArr = [...arr]; // original arrayni ozgartirmaslik uchun
+  newArr[index] = newValue; // indexdagi qiymatni almashtiramiz
+  return newArr;
 }
 
+const result = changeNumberInArray(1, [1, 3, 7, 2], 2);
+console.log(result);
 
-const result = randomBetween(30, 50);
-console.log(result); 
+
+
+
+// ZB TASK
+
+// function randomBetween(min: number, max: number): number {
+//   return Math.floor(Math.random() * (max - min + 1)) + min;
+// }
+
+
+// const result = randomBetween(30, 50);
+// console.log(result); 
 
 
 /* ZA-TASK:  Shunday function yozing, u array ichidagi objectlarni “age” qiymati boyicha sortlab bersin. 
