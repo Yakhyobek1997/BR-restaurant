@@ -1,17 +1,36 @@
-// Tsk ZD
+function removeDuplicate(input: string): string {
+  let seen = new Set<string>();
+  let result = "";
 
-function changeNumberInArray(index: number, arr: number[], newValue: number): number[] {
-  if (index < 0 || index >= arr.length) {
-    throw new Error("Index out of bounds");
+  for (const char of input) {
+    if (!seen.has(char)) {
+      seen.add(char);
+      result += char;
+    }
   }
 
-  const newArr = [...arr]; // original arrayni ozgartirmaslik uchun
-  newArr[index] = newValue; // indexdagi qiymatni almashtiramiz
-  return newArr;
+  return result;
 }
 
-const result = changeNumberInArray(1, [1, 3, 7, 2], 2);
-console.log(result);
+console.log(removeDuplicate("stringg")); 
+
+
+
+
+// Tsk ZD
+
+// function changeNumberInArray(index: number, arr: number[], newValue: number): number[] {
+//   if (index < 0 || index >= arr.length) {
+//     throw new Error("Index out of bounds");
+//   }
+
+//   const newArr = [...arr]; // original arrayni ozgartirmaslik uchun
+//   newArr[index] = newValue; // indexdagi qiymatni almashtiramiz
+//   return newArr;
+// }
+
+// const result = changeNumberInArray(1, [1, 3, 7, 2], 2);
+// console.log(result);
 
 
 
