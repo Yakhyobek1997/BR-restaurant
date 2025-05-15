@@ -1,18 +1,38 @@
-function removeDuplicate(input: string): string {
-  let seen = new Set<string>();
-  let result = "";
+// ZF
 
-  for (const char of input) {
-    if (!seen.has(char)) {
-      seen.add(char);
-      result += char;
-    }
-  }
-
-  return result;
+function capitalizeWords(str: string): string {
+  return str
+    .split(" ")
+    .map((word: string): string => {
+      return word.length > 2
+        ? word.charAt(0).toUpperCase() + word.slice(1)
+        : word;
+    })
+    .join(" ");
 }
 
-console.log(removeDuplicate("stringg")); 
+const result = capitalizeWords("name should be a string");
+console.log(result);
+
+
+
+
+
+// function removeDuplicate(input: string): string {
+//   let seen = new Set<string>();
+//   let result = "";
+
+//   for (const char of input) {
+//     if (!seen.has(char)) {
+//       seen.add(char);
+//       result += char;
+//     }
+//   }
+
+//   return result;
+// }
+
+// console.log(removeDuplicate("stringg")); 
 
 
 
