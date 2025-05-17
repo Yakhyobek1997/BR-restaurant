@@ -1,18 +1,35 @@
-// ZF
+// ZG
 
-function capitalizeWords(str: string): string {
+function toSnakeCase(str: string): string {
   return str
-    .split(" ")
-    .map((word: string): string => {
-      return word.length > 2
-        ? word.charAt(0).toUpperCase() + word.slice(1)
-        : word;
-    })
-    .join(" ");
+    .trim()
+    .toLowerCase()
+    .replace(/\s+/g, '_');
 }
 
-const result = capitalizeWords("name should be a string");
-console.log(result);
+console.log(toSnakeCase('name should be a string')); 
+//'name_should_be_a_string'
+
+
+
+
+
+
+// ZF
+
+// function capitalizeWords(str: string): string {
+//   return str
+//     .split(" ")
+//     .map((word: string): string => {
+//       return word.length > 2
+//         ? word.charAt(0).toUpperCase() + word.slice(1)
+//         : word;
+//     })
+//     .join(" ");
+// }
+
+// const result = capitalizeWords("name should be a string");
+// console.log(result);
 
 
 
