@@ -30,11 +30,12 @@ app.use(express.static(path.join(__dirname, "public"))); //
 app.use(express.urlencoded({ extended: true }));
 app.use("/uploads", express.static("./uploads"));
 app.use(express.json()); // res api uchun xizmat qiladi
-app.use(cors({ credentials: true, origin: true }));
+app.use(cors({ credentials: true,  origin: true }));
 app.use(cookieParser()); // Kirib kelyotkan cookilarni pares qiladi
 app.use(morgan(MORGAN_FORMAT));
 
 /** 2-SESSIONS **/
+
 app.use(
   session({
     secret: String(process.env.SESSION_SECRET),

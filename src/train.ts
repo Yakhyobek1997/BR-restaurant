@@ -1,14 +1,28 @@
-// ZG
 
-function toSnakeCase(str: string): string {
-  return str
-    .trim()
-    .toLowerCase()
-    .replace(/\s+/g, '_');
+function delayHelloWorld(message: string): Promise<string> {
+  return new Promise((resolve) => {
+    setTimeout(() => {
+      resolve(message);
+    }, 3000);
+  });
 }
 
-console.log(toSnakeCase('name should be a string')); 
-//'name_should_be_a_string'
+// Foydalanish:
+delayHelloWorld("Nima gap ? ").then(console.log);
+// 3 soniyadan keyin konsolda "Hello World" chiqadi
+
+
+
+// ZG
+
+// function toSnakeCase(str: string): string {
+//   return str
+//     .trim()
+//     .toLowerCase()
+//     .replace(/\s+/g, '_');
+// }
+
+// console.log(toSnakeCase('name should be a string')); 
 
 
 
