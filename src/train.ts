@@ -1,14 +1,34 @@
+// ZJ-TASK:
 
-function delayHelloWorld(message: string): Promise<string> {
-  return new Promise((resolve) => {
-    setTimeout(() => {
-      resolve(message);
-    }, 3000);
-  });
+function reduceNestedArray(arr: any[]): number {
+  let sum = 0;
+
+  for (const item of arr) {
+    if (Array.isArray(item)) {
+      sum += reduceNestedArray(item);
+    } else if (typeof item === 'number') {
+      sum += item;
+    }
+  }
+
+  return sum;
 }
 
+// Test
+const result = reduceNestedArray([1, [1, 2, [4]]]);
+console.log(result); // 8
+
+
+// function delayHelloWorld(message: string): Promise<string> {
+//   return new Promise((resolve) => {
+//     setTimeout(() => {
+//       resolve(message);
+//     }, 3000);
+//   });
+// }
+
 // Foydalanish:
-delayHelloWorld("Nima gap ? ").then(console.log);
+// delayHelloWorld("Nima gap ? ").then(console.log);
 // 3 soniyadan keyin konsolda "Hello World" chiqadi
 
 
