@@ -1,22 +1,33 @@
-// ZJ-TASK:
-
-function reduceNestedArray(arr: any[]): number {
-  let sum = 0;
-
-  for (const item of arr) {
-    if (Array.isArray(item)) {
-      sum += reduceNestedArray(item);
-    } else if (typeof item === 'number') {
-      sum += item;
-    }
-  }
-
-  return sum;
+function reverseInteger(num: number): number {
+  const reversed = num.toString().split('').reverse().join('');
+  return parseInt(reversed);
 }
 
-// Test
-const result = reduceNestedArray([1, [1, 2, [4]]]);
-console.log(result); // 8
+// Misol:
+console.log(reverseInteger(12345678910111213));
+
+
+
+
+// ZJ-TASK:
+
+// function reduceNestedArray(arr: any[]): number {
+//   let sum = 0;
+
+//   for (const item of arr) {
+//     if (Array.isArray(item)) {
+//       sum += reduceNestedArray(item);
+//     } else if (typeof item === 'number') {
+//       sum += item;
+//     }
+//   }
+
+//   return sum;
+// }
+
+// // Test
+// const result = reduceNestedArray([1, [1, 2, [4]]]);
+// console.log(result); // 8
 
 
 // function delayHelloWorld(message: string): Promise<string> {
