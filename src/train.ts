@@ -1,10 +1,21 @@
-function reverseInteger(num: number): number {
-  const reversed = num.toString().split('').reverse().join('');
-  return parseInt(reversed);
+function rotateArray(arr: number[], index: number): number[] {
+  const partToMove = arr.splice(index);
+  return partToMove.concat(arr);       
 }
 
-// Misol:
-console.log(reverseInteger(12345678910111213));
+// Misol
+console.log(rotateArray([1, 2, 3, 4, 5, 6], 3)); 
+
+
+
+
+// function reverseInteger(num: number): number {
+//   const reversed = num.toString().split('').reverse().join('');
+//   return parseInt(reversed);
+// }
+
+// // Misol:
+// console.log(reverseInteger(12345678910111213));
 
 
 
