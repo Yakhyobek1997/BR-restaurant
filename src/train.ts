@@ -1,10 +1,28 @@
-function rotateArray(arr: number[], index: number): number[] {
-  const partToMove = arr.splice(index);
-  return partToMove.concat(arr);       
+function areParenthesesBalanced(str: string): boolean {
+  let count = 0;
+
+  for (const char of str) {
+    if (char === '(') {
+      count++;
+    } else if (char === ')') {
+      count--;
+      if (count < 0) return false; 
+    }
+  }
+
+  return count === 0;
 }
 
-// Misol
-console.log(rotateArray([1, 2, 3, 4, 5, 6], 3)); 
+console.log(areParenthesesBalanced("((())())")); 
+console.log(areParenthesesBalanced("((())"));
+
+// function rotateArray(arr: number[], index: number): number[] {
+//   const partToMove = arr.splice(index);
+//   return partToMove.concat(arr);       
+// }
+
+// // Misol
+// console.log(rotateArray([1, 2, 3, 4, 5, 6], 3)); 
 
 
 
