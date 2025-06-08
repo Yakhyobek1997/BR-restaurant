@@ -1,20 +1,44 @@
-function areParenthesesBalanced(str: string): boolean {
-  let count = 0;
+// ZP
 
-  for (const char of str) {
-    if (char === '(') {
-      count++;
-    } else if (char === ')') {
-      count--;
-      if (count < 0) return false; 
+function countNumberAndLetters(input: string): { number: number; letter: number } {
+  let number = 0;
+  let letter = 0;
+
+  for (const char of input) {
+    if (/[0-9]/.test(char)) {
+      number++;
+    } else if (/[a-zA-Z]/.test(char)) {
+      letter++;
     }
   }
 
-  return count === 0;
+  return { number, letter };
 }
 
-console.log(areParenthesesBalanced("((())())")); 
-console.log(areParenthesesBalanced("((())"));
+// Misol:
+const result = countNumberAndLetters("string152%¥");
+console.log(result); // { number: 3, letter: 6 }
+
+
+
+
+// function areParenthesesBalanced(str: string): boolean {
+//   let count = 0;
+
+//   for (const char of str) {
+//     if (char === '(') {
+//       count++;
+//     } else if (char === ')') {
+//       count--;
+//       if (count < 0) return false; 
+//     }
+//   }
+
+//   return count === 0;
+// }
+
+// console.log(areParenthesesBalanced("((())())")); 
+// console.log(areParenthesesBalanced("((())"));
 
 // function rotateArray(arr: number[], index: number): number[] {
 //   const partToMove = arr.splice(index);
