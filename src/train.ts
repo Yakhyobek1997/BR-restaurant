@@ -1,27 +1,49 @@
 function findDuplicates(arr: number[]): number[] {
-  const count: Record<number, number> = {};
-  const result: number[] = [];
+    const counts: { [key: number]: number } = {};
+    const result: number[] = [];
 
-  for (const num of arr) {
-    count[num] = (count[num] || 0) + 1;
-  }
-
-  for (const num in count) {
-    if (count[num] >= 2) {
-      result.push(Number(num));
+    for (const num of arr) {
+        counts[num] = (counts[num] || 0) + 1;
     }
-  }
 
-  return result;
+    for (const num in counts) {
+        if (counts[num] >= 2) {
+            result.push(Number(num));
+        }
+    }
+
+    return result;
 }
+
 
 console.log(findDuplicates([1,2,3,4,5,4,3,4])); 
 
 
 
+// function findDuplicates(arr: number[]): number[] {
+//   const count: Record<number, number> = {};
+//   const result: number[] = [];
+
+//   for (const num of arr) {
+//     count[num] = (count[num] || 0) + 1;
+//   }
+
+//   for (const num in count) {
+//     if (count[num] >= 2) {
+//       result.push(Number(num));
+//     }
+//   }
+
+//   return result;
+// }
+
+// console.log(findDuplicates([1,2,3,4,5,4,3,4])); 
+
+
+
 
 // // ZP
-
+ 
 // function countNumberAndLetters(input: string): { number: number; letter: number } {
 //   let number = 0;
 //   let letter = 0;
