@@ -1,22 +1,41 @@
-function findDuplicates(arr: number[]): number[] {
-    const counts: { [key: number]: number } = {};
-    const result: number[] = [];
+function firstUniqueCharIndex(str: string): number {
+  const charCount: Record<string, number> = {};
 
-    for (const num of arr) {
-        counts[num] = (counts[num] || 0) + 1;
+  for (const char of str) {
+    charCount[char] = (charCount[char] || 0) + 1;
+  }
+
+  for (let i = 0; i < str.length; i++) {
+    if (charCount[str[i]] === 1) {
+      return i;
     }
+  }
 
-    for (const num in counts) {
-        if (counts[num] >= 2) {
-            result.push(Number(num));
-        }
-    }
-
-    return result;
+  return -1;
 }
 
+console.log(firstUniqueCharIndex("aabbcdd"));
 
-console.log(findDuplicates([1,2,3,4,5,4,3,4])); 
+
+// function findDuplicates(arr: number[]): number[] {
+//     const counts: { [key: number]: number } = {};
+//     const result: number[] = [];
+
+//     for (const num of arr) {
+//         counts[num] = (counts[num] || 0) + 1;
+//     }
+
+//     for (const num in counts) {
+//         if (counts[num] >= 2) {
+//             result.push(Number(num));
+//         }
+//     }
+
+//     return result;
+// }
+
+
+// console.log(findDuplicates([1,2,3,4,5,4,3,4])); 
 
 
 
